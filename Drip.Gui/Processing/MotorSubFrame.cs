@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Drip.Gui.Api;
 
 namespace Drip.Gui.Processing
 {
-    public class MotorSubFrame
+    public class MotorSubFrame : ISubFrame
     {
-        public Motor ThrusterA { get; set; }
-        public Motor ThrusterB { get; set; }
-        public Motor ThrusterC { get; set; }
+        public Motor ThrusterA { get; set; } = new Motor();
+        public Motor ThrusterB { get; set; } = new Motor();
+        public Motor ThrusterC { get; set; } = new Motor();
     }
 
     public class Motor
     {
-        public double Value { get; set; }
+        public double Value { get; set; } = 0;
 
         public int Mode
         {

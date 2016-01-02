@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Drip.Gui.Control
+namespace Drip.Gui.Controls
 {
     public partial class MotorGuage : UserControl
     {
         public MotorGuage()
         {
+            DoubleBuffered = true;
             InitializeComponent();
         }
 
@@ -32,15 +27,34 @@ namespace Drip.Gui.Control
             get { return _value; }
             set
             {
-                _value = value;
-                Refresh();
+                if (_value != value)
+                {
+                    _value = value;
+                    Invalidate();
+                }
+            }
+        }
+        
+
+
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            e.Graphics.FillRectangle(Brushes.Black, this.DisplayRectangle);
+            var perc = Math.Abs(_value / (100.0f));
+            if (Orientation == Orientation.Horizontal)
+            {
+                var center = Width / 2.0f;
+                e.Graphics.DrawLine(new Pen(perc > .9 ? DangerColor : NormalColor, 5), center, 0, center, Height);
+            }
+            else
+            {
+                var center = Height / 2.0f;
+                e.Graphics.DrawLine(new Pen(perc > .9 ? DangerColor : NormalColor, 5), 0, center, Width, center);
             }
         }
 
         private void MotorGuage_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.FillRectangle(Brushes.Black, this.DisplayRectangle);
-
             if (MaxValue - MinValue == 0)
                 return;
 
@@ -51,8 +65,6 @@ namespace Drip.Gui.Control
             {
                 var barWidth = (Width / 2.0f) * perc;
                 var center = Width/2.0f;
-                e.Graphics.DrawLine(new Pen(perc > .9 ? DangerColor : NormalColor, 5), center, 0, center, Height);
-
                 if (_value > 0)
                 {
                     e.Graphics.FillRectangle(brush, center, 0, barWidth, Height);
@@ -66,8 +78,6 @@ namespace Drip.Gui.Control
             {
                 var barHeight = (float)(Height / 2.0) * (perc);
                 var center = Height /2.0f;
-                e.Graphics.DrawLine(new Pen(perc > .9 ? DangerColor : NormalColor, 5), 0, center, Width, center);
-                
                 if (_value > 0)
                 {
                     e.Graphics.FillRectangle(brush, 0, center - barHeight, Width, barHeight);

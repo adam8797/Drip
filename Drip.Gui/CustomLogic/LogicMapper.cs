@@ -3,33 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Drip.Gui.Control;
+using Drip.Gui.Api;
 using Drip.Gui.Processing;
-using Illinois.SeaPerch.Net;
 
 namespace Drip.Gui.CustomLogic
 {
     public static class LogicMapper
     {
+        public static readonly SubProcessor<MotorSubFrame> MotorSubFrameProcessor;
+        public static readonly SubProcessor<ServoSubFrame> ServoSubFrameProcessor;
+        public static readonly RobotClient RobotClient;
+        public static readonly InputProcessor InputProcessor;
 
-        //Use this class to set which classes the program should use in processing
-
-        public static IStickProcessor StickToMotorProcessor = new SchiavoneStickToMotorMapping();
-
-        public static IRobotClient RobotClient = new IllinoisRobotClient();
-
-        public static IInputProcessor InputProcessor = new BasicInputProcessor();
-
-
-    }
-
-    public class NullRobotClient : IRobotClient
-    {
-        public void SendFrame(RobotFrame frame)
+        static LogicMapper()
         {
-            
+            //Use this class to set which classes the program should use in processing
+            //Simply change any of the objects below to read = new YOURCLASSHERE();
+
+            MotorSubFrameProcessor = new SchiavoneMotorSubProcessor();
+            ServoSubFrameProcessor = new SchiavoneServoSubProcessor();
+            RobotClient = new RobotClient();
+            InputProcessor = new SchiavoneInputProcessor();
         }
 
-        public ResponseData LatestData => default(ResponseData);
     }
 }

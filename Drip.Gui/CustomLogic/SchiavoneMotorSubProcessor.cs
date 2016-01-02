@@ -4,21 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms.VisualStyles;
-using Drip.Gui.Control;
+using Drip.Gui.Api;
 using Drip.Gui.Processing;
 using XInputDotNetPure;
 
 namespace Drip.Gui.CustomLogic
 {
-    class SchiavoneStickToMotorMapping : IStickProcessor
+    public class SchiavoneMotorSubProcessor : SubProcessor<MotorSubFrame>
     {
-        private const double AnalogMid = .5;
-        private const double AnalogLow = 0;
-        private const double AnalogHigh = 1;
-        private const double FrThresh = 0.3;
-
-
-        public MotorSubFrame GenerateFrame(GamePadState state)
+        public override MotorSubFrame GenerateSubFrame(GamePadState state, RobotFrame previousFrame)
         {
             var leftThruster = new Motor();
             var rightThruster = new Motor();

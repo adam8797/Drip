@@ -1,0 +1,8 @@
+﻿{
+  "MainVideoUrl": "",
+  "AuxVideoUrl": "",
+  "RoverIp": "",
+  "RoverPort": "",
+  "UpdateRate": 15,
+  "ServoCoefficient": 16
+}

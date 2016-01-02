@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Newtonsoft.Json;
+using XInputDotNetPure;
 
 namespace Drip.Gui.Utility
 {
@@ -7,25 +9,36 @@ namespace Drip.Gui.Utility
     {
 
         //Shared app singleton
-        private static ApplicationConfig _sharedApplicationConfig;
-        public static ApplicationConfig SharedApplicationConfig
+        private static ApplicationConfig _shared;
+        public static ApplicationConfig Shared
         {
             get
             {
-                if (_sharedApplicationConfig == null)
+                if (_shared == null)
                 {
-                    _sharedApplicationConfig = LoadApplicationConfig("default.json");
+                    _shared = Load("default.json");
                 }
-                return _sharedApplicationConfig;
+                return _shared;
+            }
+            set
+            {
+                _shared = value;
+                ConfigUpdated?.Invoke(value);
             }
         }
 
-        public static ApplicationConfig LoadApplicationConfig(string path)
+        public static Action<ApplicationConfig> ConfigUpdated; 
+
+        public static ApplicationConfig Load(string path)
         {
-            _sharedApplicationConfig = JsonConvert.DeserializeObject<ApplicationConfig>(File.ReadAllText(path));
-            return _sharedApplicationConfig;
+            _shared = JsonConvert.DeserializeObject<ApplicationConfig>(File.ReadAllText(path));
+            return _shared;
         }
 
+        public static void Save(ApplicationConfig cfg, string path)
+        {
+            File.WriteAllText(path, JsonConvert.SerializeObject(cfg, Formatting.Indented));
+        }
 
         //Properties
         public string MainVideoUrl { get; set; }
@@ -33,5 +46,7 @@ namespace Drip.Gui.Utility
         public string RoverIp { get; set; }
         public string RoverPort { get; set; }
         public int UpdateRate { get; set; }
+        public GamePadDeadZone DeadZone { get; set; }
+        public decimal ServoCoefficient { get; set; }
     }
 }

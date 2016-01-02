@@ -1,23 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace Drip.Gui.Control
+namespace Drip.Gui.Controls
 {
     public partial class Gauge : UserControl
     {
         public Gauge()
         {
             InitializeComponent();
+
+            DoubleBuffered = true;
         }
 
-        public Orientation Orientation { get; set; }
+        public Orientation Orientation { get; set; } = Orientation.Vertical;
 
         public int MaxValue { get; set; } = 100;
         public int MinValue { get; set; } = 0;
@@ -31,15 +26,21 @@ namespace Drip.Gui.Control
             get { return _value; }
             set
             {
-                _value = value;
-                Refresh();
+                if (_value != value)
+                {
+                    _value = value;
+                    Invalidate();
+                }
             }
         }
-        
-        private void Gauge_Paint(object sender, PaintEventArgs e)
+
+        protected override void OnPaintBackground(PaintEventArgs e)
         {
             e.Graphics.FillRectangle(Brushes.Black, this.DisplayRectangle);
+        }
 
+        private void Gauge_Paint(object sender, PaintEventArgs e)
+        {
             if (MaxValue - MinValue == 0)
                 return;
 

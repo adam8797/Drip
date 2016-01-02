@@ -3,46 +3,66 @@ using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
 using Drip.Gui.Utility;
+using Illinois.SeaPerch.Net;
+using ROVControl;
 using XInputDotNetPure;
-using Timer = System.Timers.Timer;
 
 namespace Drip.Gui.Processing
 {
     public class CentralClock
     {
         private bool _supressTimer = false;
+        private RobotFrame _previousFrame = null;
         private ThreadedTimer _timer;
-        public InputProcessor InputProcessor;
 
         public CentralClock(Form caller)
         {
-            InputProcessor = new InputProcessor();
+            int delay = 1000/ApplicationConfig.Shared.UpdateRate;
+
+            ApplicationConfig.ConfigUpdated += config => _timer.DelayTime = 1000/config.UpdateRate;
+            
+
             _timer = new ThreadedTimer(() =>
             {
                 if (_supressTimer)
                     return;
 
-                var padState = GamePad.GetState(PlayerIndex.One, GamePadDeadZone.IndependentAxes);
+                var padState = GamePad.GetState(PlayerIndex.One, ApplicationConfig.Shared.DeadZone);
                 StateGenerated?.Invoke(padState);
 
                 //Process Gamepad
-                var frame = CustomLogic.LogicMapper.InputProcessor.ProcessGamepad(padState);
+                var frame = CustomLogic.LogicMapper.InputProcessor.ProcessData(padState, _previousFrame);
+
+                //Send an update tick to the servos
+                //The trick with the servos, is that all in all we only ever make one ServoSubFrame.
+                //It gets recycled ever tick so that the servos can calculate velocities
+                frame.Servos.Servo1.Update();
+                frame.Servos.Servo2.Update();
+                frame.Servos.Servo3.Update();
+                frame.Servos.Servo4.Update();
+
+                //Send the frame to anybody who is listening
                 FrameGenerated?.Invoke(frame);
 
-                //Get Sensor Data
-
+                //Get Sensor Data and send it to anybody who is listening
+                DataGenerated?.Invoke(CustomLogic.LogicMapper.RobotClient.LatestData);
 
                 //Update Video
+
 
                 //Send new commands
                 var c = CustomLogic.LogicMapper.RobotClient;
                 c.SendFrame(frame);
 
-            }, caller, 100);
+                //Stash the current frame away for the next loop.
+                _previousFrame = frame;
+
+            }, caller, delay);
         }
 
         public event Action<RobotFrame> FrameGenerated;
         public event Action<GamePadState> StateGenerated;
+        public event Action<ResponseData> DataGenerated;
 
         public void Stop()
         {

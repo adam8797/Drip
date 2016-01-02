@@ -1,6 +1,6 @@
-﻿namespace Drip.Gui.Control
+﻿namespace Drip.Gui.Controls
 {
-    partial class Gauge
+    partial class JoystickDisplay
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,12 +30,12 @@
         {
             this.SuspendLayout();
             // 
-            // Gauge
+            // JoystickDisplay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "Gauge";
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Gauge_Paint);
+            this.Name = "JoystickDisplay";
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.JoystickDisplay_Paint);
             this.ResumeLayout(false);
 
         }

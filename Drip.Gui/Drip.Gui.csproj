@@ -65,27 +65,50 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Control\IStickProcessor.cs" />
-    <Compile Include="Control\MotorGuage.cs">
+    <Compile Include="Api\ISubFrame.cs" />
+    <Compile Include="Api\SubProcessor.cs" />
+    <Compile Include="Controls\JoystickDisplay.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Control\MotorGuage.Designer.cs">
+    <Compile Include="Controls\JoystickDisplay.Designer.cs">
+      <DependentUpon>JoystickDisplay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MotorGuage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\MotorGuage.Designer.cs">
       <DependentUpon>MotorGuage.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomLogic\BasicInputProcessor.cs" />
-    <Compile Include="CustomLogic\IllinoisRobotClient.cs" />
-    <Compile Include="Processing\IRobotClient.cs" />
-    <Compile Include="CustomLogic\LogicMapper.cs" />
-    <Compile Include="CustomLogic\SchiavoneStickToMotorMapping.cs" />
-    <Compile Include="Processing\MotorSubFrame.cs" />
-    <Compile Include="Processing\RobotFrame.cs" />
-    <Compile Include="Utility\ThreadedTimer.cs" />
-    <Compile Include="Utility\ApplicationConfig.cs" />
-    <Compile Include="Processing\CentralClock.cs" />
-    <Compile Include="Control\Gauge.cs">
+    <Compile Include="Controls\ServoDisplay.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Control\Gauge.Designer.cs">
+    <Compile Include="Controls\ServoDisplay.Designer.cs">
+      <DependentUpon>ServoDisplay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomLogic\SchiavoneInputProcessor.cs" />
+    <Compile Include="CustomLogic\IllinoisRobotClient.cs" />
+    <Compile Include="CustomLogic\SchiavoneServoSubProcessor.cs" />
+    <Compile Include="External\Servo.cs" />
+    <Compile Include="Api\InputProcessor.cs" />
+    <Compile Include="Api\RobotClient.cs" />
+    <Compile Include="CustomLogic\LogicMapper.cs" />
+    <Compile Include="CustomLogic\SchiavoneMotorSubProcessor.cs" />
+    <Compile Include="Forms\Settings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Settings.Designer.cs">
+      <DependentUpon>Settings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Processing\MotorSubFrame.cs" />
+    <Compile Include="Processing\RobotFrame.cs" />
+    <Compile Include="Processing\ServoSubFrame.cs" />
+    <Compile Include="External\ThreadedTimer.cs" />
+    <Compile Include="Utility\ApplicationConfig.cs" />
+    <Compile Include="Processing\CentralClock.cs" />
+    <Compile Include="Controls\Gauge.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Gauge.Designer.cs">
       <DependentUpon>Gauge.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Dashboard.cs">
@@ -94,17 +117,27 @@
     <Compile Include="Forms\Dashboard.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Processing\InputProcessor.cs" />
+    <Compile Include="Processing\GamePadButton.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Control\Gauge.resx">
+    <Compile Include="Utility\Util.cs" />
+    <EmbeddedResource Include="Controls\Gauge.resx">
       <DependentUpon>Gauge.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Control\MotorGuage.resx">
+    <EmbeddedResource Include="Controls\JoystickDisplay.resx">
+      <DependentUpon>JoystickDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MotorGuage.resx">
       <DependentUpon>MotorGuage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ServoDisplay.resx">
+      <DependentUpon>ServoDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Dashboard.resx">
       <DependentUpon>Dashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Settings.resx">
+      <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -115,6 +148,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="default.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -135,6 +171,7 @@
       <Name>Illinois.SeaPerch.Net</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(SolutionDir)\Library\XInputDotNet\XInputInterface.dll" "$(TargetDir)\XInputInterface.dll"</PostBuildEvent>

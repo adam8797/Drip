@@ -1,6 +1,6 @@
-﻿namespace Drip.Gui.Control
+﻿namespace Drip.Gui.Controls
 {
-    partial class MotorGuage
+    partial class Gauge
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,12 +30,13 @@
         {
             this.SuspendLayout();
             // 
-            // MotorGuage
+            // Gauge
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "MotorGuage";
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.MotorGuage_Paint);
+            this.Name = "Gauge";
+            this.Size = new System.Drawing.Size(40, 130);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Gauge_Paint);
             this.ResumeLayout(false);
 
         }
