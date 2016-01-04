@@ -29,7 +29,11 @@ namespace Drip.Gui.Forms
                 RoverPort = robotPort.Text,
                 ServoCoefficient = velCoeff.Value,
                 UpdateRate = (int) fps.Value,
-                DeadZone = (GamePadDeadZone)deadZone.SelectedIndex
+                DeadZone = (GamePadDeadZone)deadZone.SelectedIndex,
+                FramesShownInGraph = (int)numFrames.Value,
+                YMaximum = numYMax.Value,
+                YMinimum = numYMin.Value,
+                LoggingLevel = (EventLevel)loggingLevel.SelectedIndex
             };
 
             ApplicationConfig.Shared = cfg;
@@ -53,6 +57,10 @@ namespace Drip.Gui.Forms
             robotIp.Text = cfg.RoverIp;
             robotPort.Text = cfg.RoverPort;
             deadZone.SelectedIndex = (int) cfg.DeadZone;
+            numFrames.Value = cfg.FramesShownInGraph;
+            numYMax.Value = cfg.YMaximum;
+            numYMin.Value = cfg.YMinimum;
+            loggingLevel.SelectedIndex = (int)cfg.LoggingLevel;
         }
     }
 }

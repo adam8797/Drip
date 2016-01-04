@@ -5,15 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using Drip.Gui.Api;
 using Drip.Gui.Processing;
+using Illinois.SeaPerch.Net;
 
 namespace Drip.Gui.CustomLogic
 {
-    public static class LogicMapper
+    public static class LogicMapper<T>
     {
         public static readonly SubProcessor<MotorSubFrame> MotorSubFrameProcessor;
         public static readonly SubProcessor<ServoSubFrame> ServoSubFrameProcessor;
-        public static readonly RobotClient RobotClient;
+        public static readonly RobotClient<T> RobotClient;
         public static readonly InputProcessor InputProcessor;
+        public static readonly IDashboardModifier<T> DashboardModifier; 
 
         static LogicMapper()
         {
@@ -22,8 +24,9 @@ namespace Drip.Gui.CustomLogic
 
             MotorSubFrameProcessor = new SchiavoneMotorSubProcessor();
             ServoSubFrameProcessor = new SchiavoneServoSubProcessor();
-            RobotClient = new RobotClient();
+            RobotClient = new RobotClient<T>();
             InputProcessor = new SchiavoneInputProcessor();
+            DashboardModifier = new DefaultDashboardModifier<T>();
         }
 
     }

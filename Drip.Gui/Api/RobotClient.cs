@@ -3,13 +3,13 @@ using Illinois.SeaPerch.Net;
 
 namespace Drip.Gui.Api
 {
-    public class RobotClient
+    public class RobotClient<T>
     {
         public virtual void SendFrame(RobotFrame frame)
         {
             //Do nothing
         }
 
-        public ResponseData LatestData { get; protected set; }
+        public T LatestData { get; protected set; }
     }
 }

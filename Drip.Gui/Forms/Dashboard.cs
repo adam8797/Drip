@@ -2,23 +2,33 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
+using Drip.Gui.Api;
 using Drip.Gui.CustomLogic;
 using Drip.Gui.Processing;
 using Drip.Gui.Utility;
 using Illinois.SeaPerch.Net;
+using OxyPlot;
+using OxyPlot.Series;
+using Ozeki.Media;
+using utils;
 using XInputDotNetPure;
 
 namespace Drip.Gui.Forms
 {
-    public partial class Dashboard : Form
+    public partial class Dashboard<TResponseData> : Form, IDashboardContract
     {
-        private CentralClock _centralClock;
+        //The main central clock that handles all information retrieval, processing, and output
+        private CentralClock<TResponseData> _centralClock;
 
         public Dashboard()
         {
             InitializeComponent();
 
-            _centralClock = new CentralClock(this);
+            AppConsole.RegisterTextbox(appConsole);
+            AppConsole.RedirectConsoleOutput();
+
+            _centralClock = new CentralClock<TResponseData>(this);
 
             _centralClock.FrameGenerated += CentralClockOnFrameGenerated;
             _centralClock.StateGenerated += CentralClockOnStateGenerated;
@@ -26,43 +36,63 @@ namespace Drip.Gui.Forms
 
             ApplicationConfig.ConfigUpdated += (config) =>
             {
-                BindVideo();
+                auxVideoStream.MJPEGUrl = config.AuxVideoUrl;
+                mainVideoStream.MJPEGUrl = config.MainVideoUrl;
             };
 
-            BindVideo();
+            auxVideoStream.MJPEGUrl = ApplicationConfig.Shared.AuxVideoUrl;
+            mainVideoStream.MJPEGUrl = ApplicationConfig.Shared.MainVideoUrl;
 
-            LogicMapper.InputProcessor.ButtonPress += InputProcessorOnButtonPress;
-
+            LogicMapper<TResponseData>.InputProcessor.ButtonPress += InputProcessorOnButtonPress;
         }
 
-        private void CentralClockOnDataGenerated(ResponseData responseData)
+        #region Processing Event Handlers
+
+        private void CentralClockOnDataGenerated(TResponseData responseData)
         {
-            //Update the data on the raw response tab.
-            if (outputTabs.SelectedIndex == 1)
+            BeginInvoke((Action) (() =>
             {
-                var form = "N3";
+                LogicMapper<TResponseData>.DashboardModifier.OnDataRecieved(this, _centralClock, responseData);
+            }));
+        }
 
-                //Left Column
-                lblLThrusterMode.Text =     responseData.LeftThrusterMode.ToString();
-                lblLThrusterPower.Text =    responseData.LeftThrusterPower.ToString();
-                lblCpuTemp.Text =           responseData.CpuTemp.ToString(form);
-                lblDepth.Text =             responseData.Depth.ToString(form);
-                lblWaterTemp.Text =         responseData.WaterTemp.ToString(form);
+        private void CentralClockOnStateGenerated(GamePadState gamePadState)
+        {
+            BeginInvoke((Action) (() =>
+            {
+                leftThumbstick.StickValue = gamePadState.ThumbSticks.Left;
+                rightThumbstick.StickValue = gamePadState.ThumbSticks.Right;
 
-                //Center Column
-                lblVThrusterMode.Text =     responseData.VertThrusterMode.ToString();
-                lblVThrusterPower.Text =    responseData.VertThrusterPower.ToString();
-                lblVoltage.Text =           responseData.Voltage.ToString(form);
-                lblQualityCommand.Text =    responseData.QualityCmd.ToString();
-                lblMessageTime.Text =       responseData.MessageTime.ToString("HH:mm:ss.fff");
+                leftTrigger.Value = (int) (gamePadState.Triggers.Left*100.0);
+                rightTrigger.Value = (int) (gamePadState.Triggers.Right*100.0);
 
-                //Right Column
-                lblRThrusterMode.Text =     responseData.RightThrusterMode.ToString();
-                lblRThrusterPower.Text =    responseData.RightThrusterPower.ToString();
-                lblSensor1.Text =           responseData.Sensor1.ToString(form);
-                lblSensor2.Text =           responseData.Sensor2.ToString(form);
-                lblSensor3.Text =           responseData.Sensor3.ToString(form);
-            }
+                LogicMapper<TResponseData>.DashboardModifier.OnStateGenerated(this, _centralClock, gamePadState);
+            }));
+        }
+
+        private void CentralClockOnFrameGenerated(RobotFrame robotFrame)
+        {
+            BeginInvoke((Action) (() =>
+            {
+                LogicMapper<TResponseData>.DashboardModifier.OnRobotFrameGenerated(this, _centralClock, robotFrame);
+
+                propA.Value = (int)(robotFrame.Motors.ThrusterA.Value*100);
+                propB.Value = (int)(robotFrame.Motors.ThrusterB.Value*100);
+                propC.Value = (int)(robotFrame.Motors.ThrusterC.Value*100);
+
+                var lightColor = robotFrame.LightIsOn ? Color.Chartreuse : Color.Red;
+                if (lblLight.BackColor != lightColor)
+                    lblLight.BackColor = lightColor;
+
+                //Servo Tab
+                if (outputTabs.SelectedIndex == 2)
+                {
+                    servo1.Angle = robotFrame.Servos.Servo1.Angle;
+                    servo2.Angle = robotFrame.Servos.Servo2.Angle;
+                    servo3.Angle = robotFrame.Servos.Servo3.Angle;
+                    servo4.Angle = robotFrame.Servos.Servo4.Angle;
+                }
+            }));
         }
 
         private void InputProcessorOnButtonPress(GamePadButton gamePadButton)
@@ -86,50 +116,20 @@ namespace Drip.Gui.Forms
             }));
         }
 
-        private void CentralClockOnStateGenerated(GamePadState gamePadState)
-        {
-            BeginInvoke((Action) (() =>
-            {
-                leftThumbstick.StickValue = gamePadState.ThumbSticks.Left;
-                rightThumbstick.StickValue = gamePadState.ThumbSticks.Right;
+        #endregion
 
-                leftTrigger.Value = (int) (gamePadState.Triggers.Left*100.0);
-                rightTrigger.Value = (int) (gamePadState.Triggers.Right*100.0);
-            }));
-        }
+        #region Form Event Handlers
 
-        private void CentralClockOnFrameGenerated(RobotFrame robotFrame)
-        {
-            BeginInvoke((Action) (() =>
-            {
-                propA.Value = (int)(robotFrame.Motors.ThrusterA.Value*100);
-                propB.Value = (int)(robotFrame.Motors.ThrusterB.Value*100);
-                propC.Value = (int)(robotFrame.Motors.ThrusterC.Value*100);
-
-                var lightColor = robotFrame.LightIsOn ? Color.Chartreuse : Color.Red;
-                if (lblLight.BackColor != lightColor)
-                    lblLight.BackColor = lightColor;
-
-                //Servo Tab
-                if (outputTabs.SelectedIndex == 2)
-                {
-                    servo1.Angle = robotFrame.Servos.Servo1.Angle;
-                    servo2.Angle = robotFrame.Servos.Servo2.Angle;
-                    servo3.Angle = robotFrame.Servos.Servo3.Angle;
-                    servo4.Angle = robotFrame.Servos.Servo4.Angle;
-                }
-            }));
-        }
-
-        private void BindVideo()
-        {
-            
-        }
+        #region Form
 
         private void Dashboard_Load(object sender, EventArgs e)
         {
             _centralClock.Start();
         }
+
+        #endregion
+
+        #region Tool Strip
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -150,5 +150,120 @@ namespace Drip.Gui.Forms
                 ApplicationConfig.Save(ApplicationConfig.Shared, sfd.FileName);
             }
         }
+
+        private void loadConfigToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var ofd = new OpenFileDialog();
+            ofd.CheckFileExists = true;
+            ofd.Multiselect = false;
+            ofd.DefaultExt = ".json";
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                ApplicationConfig.Load(ofd.FileName);
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Exposed Properties
+
+        public string LThrusterMode
+        {
+            get { return lblLThrusterMode.Text; }
+            set { lblLThrusterMode.Text = value; }
+        }
+
+        public string LThrusterPower
+        {
+            get { return lblLThrusterPower.Text; }
+            set { lblLThrusterPower.Text = value; }
+        }
+
+        public string CpuTemp
+        {
+            get { return lblCpuTemp.Text; }
+            set { lblCpuTemp.Text = value; }
+        }
+
+        public string Depth
+        {
+            get { return lblDepth.Text; }
+            set { lblDepth.Text = value; }
+        }
+
+        public string WaterTemp
+        {
+            get { return lblWaterTemp.Text; }
+            set { lblWaterTemp.Text = value; }
+        }
+
+        public string VThrusterMode
+        {
+            get { return lblVThrusterMode.Text; }
+            set { lblVThrusterMode.Text = value; }
+        }
+
+        public string VThrusterPower
+        {
+            get { return lblVThrusterPower.Text; }
+            set { lblVThrusterPower.Text = value; }
+        }
+
+        public string Voltage
+        {
+            get { return lblVoltage.Text; }
+            set { lblVoltage.Text = value; }
+        }
+
+        public string QualityCommand
+        {
+            get { return lblQualityCommand.Text; }
+            set { lblQualityCommand.Text = value; }
+        }
+
+        public string MessageTime
+        {
+            get { return lblMessageTime.Text; }
+            set { lblMessageTime.Text = value; }
+        }
+
+        public string RThrusterMode
+        {
+            get { return lblRThrusterMode.Text; }
+            set { lblRThrusterMode.Text = value; }
+        }
+
+        public string RThrusterPower
+        {
+            get { return lblRThrusterPower.Text; }
+            set { lblRThrusterPower.Text = value; }
+        }
+
+        public string Sensor1
+        {
+            get { return lblSensor1.Text; }
+            set { lblSensor1.Text = value; }
+        }
+
+        public string Sensor2
+        {
+            get { return lblSensor2.Text; }
+            set { lblSensor2.Text = value; }
+        }
+
+        public string Sensor3
+        {
+            get { return lblSensor3.Text; }
+            set { lblSensor3.Text = value; }
+        }
+
+        public int SelectedTab => outputTabs.SelectedIndex;
+
+        public Chart Chart => chart;
+
+        #endregion
     }
 }

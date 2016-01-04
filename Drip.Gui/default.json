@@ -4,5 +4,9 @@
   "RoverIp": "",
   "RoverPort": "",
   "UpdateRate": 15,
-  "ServoCoefficient": 16
+  "ServoCoefficient": 1,
+  "FramesShownInGraph": 200,
+  "YMinimum": 0,
+  "YMaximum": 0,
+  "LoggingLevel" : 1
 }

@@ -12,6 +12,8 @@ namespace Drip.Gui.Processing
         public MotorSubFrame Motors { get; set; }
         public ServoSubFrame Servos { get; set; }
 
+        public int FrameNumber { get; set; }
+
         //Add ant more fields that you need here
         public bool LightIsOn { get; set; }
 

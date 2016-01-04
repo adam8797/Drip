@@ -1,8 +1,9 @@
-﻿using Drip.Gui.Controls;
+﻿using Drip.Gui.Api;
+using Drip.Gui.Controls;
 
 namespace Drip.Gui.Forms
 {
-    partial class Dashboard
+    partial class Dashboard<TResponseData>
     {
         /// <summary>
         /// Required designer variable.
@@ -31,19 +32,22 @@ namespace Drip.Gui.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.mainVideoStream = new Ozeki.Media.VideoViewerWF();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.auxVideoStream = new Ozeki.Media.VideoViewerWF();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.lblLight = new System.Windows.Forms.Label();
             this.outputTabs = new System.Windows.Forms.TabControl();
             this.pageGraphs = new System.Windows.Forms.TabPage();
+            this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.pageRawData = new System.Windows.Forms.TabPage();
             this.lblSensor2 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
@@ -84,9 +88,9 @@ namespace Drip.Gui.Forms
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.servo4 = new Drip.Gui.Controls.ServoDisplay();
             this.servo3 = new Drip.Gui.Controls.ServoDisplay();
@@ -96,33 +100,25 @@ namespace Drip.Gui.Forms
             this.leftTrigger = new Drip.Gui.Controls.Gauge();
             this.rightThumbstick = new Drip.Gui.Controls.JoystickDisplay();
             this.leftThumbstick = new Drip.Gui.Controls.JoystickDisplay();
+            this.auxVideoStream = new Drip.Gui.Controls.MJPEGVideo();
+            this.mainVideoStream = new Drip.Gui.Controls.MJPEGVideo();
             this.propA = new Drip.Gui.Controls.MotorGuage();
             this.propC = new Drip.Gui.Controls.MotorGuage();
             this.propB = new Drip.Gui.Controls.MotorGuage();
+            this.appConsole = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.outputTabs.SuspendLayout();
+            this.pageGraphs.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             this.pageRawData.SuspendLayout();
             this.pageServos.SuspendLayout();
+            this.pageConsole.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // mainVideoStream
-            // 
-            this.mainVideoStream.BackColor = System.Drawing.Color.Black;
-            this.mainVideoStream.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainVideoStream.FlipMode = Ozeki.Media.FlipMode.None;
-            this.mainVideoStream.FrameStretch = Ozeki.Media.FrameStretch.Uniform;
-            this.mainVideoStream.FullScreenEnabled = true;
-            this.mainVideoStream.Location = new System.Drawing.Point(3, 16);
-            this.mainVideoStream.Name = "mainVideoStream";
-            this.mainVideoStream.RotateAngle = 0;
-            this.mainVideoStream.Size = new System.Drawing.Size(762, 413);
-            this.mainVideoStream.TabIndex = 0;
-            this.mainVideoStream.Text = "videoViewerWF1";
             // 
             // groupBox1
             // 
@@ -186,20 +182,6 @@ namespace Drip.Gui.Forms
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Aux Video Stream";
             // 
-            // auxVideoStream
-            // 
-            this.auxVideoStream.BackColor = System.Drawing.Color.Black;
-            this.auxVideoStream.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.auxVideoStream.FlipMode = Ozeki.Media.FlipMode.None;
-            this.auxVideoStream.FrameStretch = Ozeki.Media.FrameStretch.Uniform;
-            this.auxVideoStream.FullScreenEnabled = true;
-            this.auxVideoStream.Location = new System.Drawing.Point(3, 16);
-            this.auxVideoStream.Name = "auxVideoStream";
-            this.auxVideoStream.RotateAngle = 0;
-            this.auxVideoStream.Size = new System.Drawing.Size(250, 125);
-            this.auxVideoStream.TabIndex = 0;
-            this.auxVideoStream.Text = "videoViewerWF2";
-            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.rightTrigger);
@@ -248,6 +230,7 @@ namespace Drip.Gui.Forms
             // 
             // pageGraphs
             // 
+            this.pageGraphs.Controls.Add(this.chart);
             this.pageGraphs.Location = new System.Drawing.Point(4, 22);
             this.pageGraphs.Name = "pageGraphs";
             this.pageGraphs.Padding = new System.Windows.Forms.Padding(3);
@@ -255,6 +238,36 @@ namespace Drip.Gui.Forms
             this.pageGraphs.TabIndex = 0;
             this.pageGraphs.Text = "Graphs";
             this.pageGraphs.UseVisualStyleBackColor = true;
+            // 
+            // chart
+            // 
+            chartArea1.AxisX.Maximum = 200D;
+            chartArea1.AxisX.Minimum = 0D;
+            chartArea1.Name = "ChartArea1";
+            this.chart.ChartAreas.Add(chartArea1);
+            this.chart.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.Name = "Legend1";
+            this.chart.Legends.Add(legend1);
+            this.chart.Location = new System.Drawing.Point(3, 3);
+            this.chart.Name = "chart";
+            this.chart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
+            series1.BorderWidth = 3;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series1.Color = System.Drawing.Color.Blue;
+            series1.Legend = "Legend1";
+            series1.Name = "Pressure";
+            series2.BorderWidth = 3;
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series2.Color = System.Drawing.Color.Red;
+            series2.Legend = "Legend1";
+            series2.Name = "Temp";
+            this.chart.Series.Add(series1);
+            this.chart.Series.Add(series2);
+            this.chart.Size = new System.Drawing.Size(772, 135);
+            this.chart.TabIndex = 1;
+            this.chart.Text = "chart1";
             // 
             // pageRawData
             // 
@@ -655,6 +668,7 @@ namespace Drip.Gui.Forms
             // 
             // pageConsole
             // 
+            this.pageConsole.Controls.Add(this.appConsole);
             this.pageConsole.Location = new System.Drawing.Point(4, 22);
             this.pageConsole.Name = "pageConsole";
             this.pageConsole.Padding = new System.Windows.Forms.Padding(3);
@@ -688,32 +702,33 @@ namespace Drip.Gui.Forms
             // loadConfigToolStripMenuItem
             // 
             this.loadConfigToolStripMenuItem.Name = "loadConfigToolStripMenuItem";
-            this.loadConfigToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadConfigToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.loadConfigToolStripMenuItem.Text = "Load Config";
-            // 
-            // settingsToolStripMenuItem
-            // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.settingsToolStripMenuItem.Text = "Settings";
-            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            this.loadConfigToolStripMenuItem.Click += new System.EventHandler(this.loadConfigToolStripMenuItem_Click);
             // 
             // saveConfigToolStripMenuItem
             // 
             this.saveConfigToolStripMenuItem.Name = "saveConfigToolStripMenuItem";
-            this.saveConfigToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveConfigToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.saveConfigToolStripMenuItem.Text = "Save Config";
             this.saveConfigToolStripMenuItem.Click += new System.EventHandler(this.saveConfigToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(136, 6);
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
             // servo4
@@ -814,6 +829,36 @@ namespace Drip.Gui.Forms
             this.leftThumbstick.Size = new System.Drawing.Size(130, 130);
             this.leftThumbstick.TabIndex = 14;
             // 
+            // auxVideoStream
+            // 
+            this.auxVideoStream.BackColor = System.Drawing.Color.Black;
+            this.auxVideoStream.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.auxVideoStream.FlipMode = Ozeki.Media.FlipMode.None;
+            this.auxVideoStream.FrameStretch = Ozeki.Media.FrameStretch.Uniform;
+            this.auxVideoStream.FullScreenEnabled = true;
+            this.auxVideoStream.Location = new System.Drawing.Point(3, 16);
+            this.auxVideoStream.MJPEGUrl = null;
+            this.auxVideoStream.Name = "auxVideoStream";
+            this.auxVideoStream.RotateAngle = 0;
+            this.auxVideoStream.Size = new System.Drawing.Size(250, 125);
+            this.auxVideoStream.TabIndex = 0;
+            this.auxVideoStream.Text = "videoViewerWF2";
+            // 
+            // mainVideoStream
+            // 
+            this.mainVideoStream.BackColor = System.Drawing.Color.Black;
+            this.mainVideoStream.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainVideoStream.FlipMode = Ozeki.Media.FlipMode.None;
+            this.mainVideoStream.FrameStretch = Ozeki.Media.FrameStretch.Uniform;
+            this.mainVideoStream.FullScreenEnabled = true;
+            this.mainVideoStream.Location = new System.Drawing.Point(3, 16);
+            this.mainVideoStream.MJPEGUrl = null;
+            this.mainVideoStream.Name = "mainVideoStream";
+            this.mainVideoStream.RotateAngle = 0;
+            this.mainVideoStream.Size = new System.Drawing.Size(762, 413);
+            this.mainVideoStream.TabIndex = 0;
+            this.mainVideoStream.Text = "videoViewerWF1";
+            // 
             // propA
             // 
             this.propA.DangerColor = System.Drawing.Color.Chartreuse;
@@ -847,6 +892,18 @@ namespace Drip.Gui.Forms
             this.propB.TabIndex = 21;
             this.propB.Value = 0;
             // 
+            // appConsole
+            // 
+            this.appConsole.BackColor = System.Drawing.SystemColors.Window;
+            this.appConsole.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.appConsole.Location = new System.Drawing.Point(3, 3);
+            this.appConsole.Multiline = true;
+            this.appConsole.Name = "appConsole";
+            this.appConsole.ReadOnly = true;
+            this.appConsole.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.appConsole.Size = new System.Drawing.Size(772, 135);
+            this.appConsole.TabIndex = 0;
+            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -870,9 +927,13 @@ namespace Drip.Gui.Forms
             this.groupBox4.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.outputTabs.ResumeLayout(false);
+            this.pageGraphs.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
             this.pageRawData.ResumeLayout(false);
             this.pageServos.ResumeLayout(false);
             this.pageServos.PerformLayout();
+            this.pageConsole.ResumeLayout(false);
+            this.pageConsole.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -881,15 +942,14 @@ namespace Drip.Gui.Forms
         }
 
         #endregion
-
-        private Ozeki.Media.VideoViewerWF mainVideoStream;
+        private MJPEGVideo mainVideoStream;
+        private MJPEGVideo auxVideoStream;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
-        private Ozeki.Media.VideoViewerWF auxVideoStream;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox groupBox5;
         private MotorGuage propA;
@@ -950,5 +1010,7 @@ namespace Drip.Gui.Forms
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart;
+        private System.Windows.Forms.TextBox appConsole;
     }
 }

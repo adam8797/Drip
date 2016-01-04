@@ -51,7 +51,8 @@ namespace ROVControl.Control
 
         public void Update()
         {
-            _currentAngle += (double)ApplicationConfig.Shared.ServoCoefficient*_velocity;
+            _currentAngle += (double)((240.0m/ApplicationConfig.Shared.UpdateRate)*ApplicationConfig.Shared.ServoCoefficient) *
+                             _velocity;
 
             if (_currentAngle >= _maxAngle)
                 _currentAngle = _maxAngle;

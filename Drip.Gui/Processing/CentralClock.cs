@@ -9,11 +9,13 @@ using XInputDotNetPure;
 
 namespace Drip.Gui.Processing
 {
-    public class CentralClock
+    public class CentralClock<TResponseData>
     {
         private bool _supressTimer = false;
         private RobotFrame _previousFrame = null;
         private ThreadedTimer _timer;
+
+        public int LastFrameIndex => _previousFrame.FrameNumber;
 
         public CentralClock(Form caller)
         {
@@ -31,7 +33,11 @@ namespace Drip.Gui.Processing
                 StateGenerated?.Invoke(padState);
 
                 //Process Gamepad
-                var frame = CustomLogic.LogicMapper.InputProcessor.ProcessData(padState, _previousFrame);
+                var frame = CustomLogic.LogicMapper<TResponseData>.InputProcessor.ProcessData(padState, _previousFrame);
+
+                //Update the frame number
+                if (_previousFrame != null)
+                    frame.FrameNumber = _previousFrame.FrameNumber + 1;
 
                 //Send an update tick to the servos
                 //The trick with the servos, is that all in all we only ever make one ServoSubFrame.
@@ -45,13 +51,13 @@ namespace Drip.Gui.Processing
                 FrameGenerated?.Invoke(frame);
 
                 //Get Sensor Data and send it to anybody who is listening
-                DataGenerated?.Invoke(CustomLogic.LogicMapper.RobotClient.LatestData);
+                DataGenerated?.Invoke(CustomLogic.LogicMapper<TResponseData>.RobotClient.LatestData);
 
                 //Update Video
 
 
                 //Send new commands
-                var c = CustomLogic.LogicMapper.RobotClient;
+                var c = CustomLogic.LogicMapper<TResponseData>.RobotClient;
                 c.SendFrame(frame);
 
                 //Stash the current frame away for the next loop.
@@ -62,7 +68,7 @@ namespace Drip.Gui.Processing
 
         public event Action<RobotFrame> FrameGenerated;
         public event Action<GamePadState> StateGenerated;
-        public event Action<ResponseData> DataGenerated;
+        public event Action<TResponseData> DataGenerated;
 
         public void Stop()
         {

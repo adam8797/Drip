@@ -16,27 +16,32 @@ namespace Drip.Gui.Utility
             {
                 if (_shared == null)
                 {
-                    _shared = Load("default.json");
+                    AppConsole.WriteLine("Loading Default Configuration...");
+                    _shared = JsonConvert.DeserializeObject<ApplicationConfig>(File.ReadAllText("default.json"));
                 }
                 return _shared;
             }
             set
             {
                 _shared = value;
+                AppConsole.WriteLine("System Configuration Updated");
                 ConfigUpdated?.Invoke(value);
             }
         }
 
+        public static bool ConfigLoaded => _shared != null;
+
         public static Action<ApplicationConfig> ConfigUpdated; 
 
-        public static ApplicationConfig Load(string path)
+        public static void Load(string path)
         {
-            _shared = JsonConvert.DeserializeObject<ApplicationConfig>(File.ReadAllText(path));
-            return _shared;
+            AppConsole.WriteLine("Loading configuration from file: " + path);
+            Shared = JsonConvert.DeserializeObject<ApplicationConfig>(File.ReadAllText(path));
         }
 
         public static void Save(ApplicationConfig cfg, string path)
         {
+            AppConsole.WriteLine("Saving configuration to file: " + path);
             File.WriteAllText(path, JsonConvert.SerializeObject(cfg, Formatting.Indented));
         }
 
@@ -46,7 +51,14 @@ namespace Drip.Gui.Utility
         public string RoverIp { get; set; }
         public string RoverPort { get; set; }
         public int UpdateRate { get; set; }
+
         public GamePadDeadZone DeadZone { get; set; }
         public decimal ServoCoefficient { get; set; }
+        public int FramesShownInGraph { get; set; }
+
+        public decimal YMinimum { get; set; }
+        public decimal YMaximum { get; set; }
+
+        public EventLevel LoggingLevel { get; set; }
     }
 }

@@ -65,10 +65,17 @@ namespace ROVControl
                 {
                     lastTick[0] = DateTime.Now;
 
-                    _target.Invoke(new MethodInvoker(() =>
+                    try
                     {
-                        _method?.Invoke();
-                    }));
+                        _target.Invoke(new MethodInvoker(() =>
+                        {
+                            _method?.Invoke();
+                        }));
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        return;
+                    }
 
                     adjuctTicks = (DateTime.Now - lastTick[0]).Ticks;
                 }
