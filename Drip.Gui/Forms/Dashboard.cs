@@ -8,8 +8,6 @@ using Drip.Gui.CustomLogic;
 using Drip.Gui.Processing;
 using Drip.Gui.Utility;
 using Illinois.SeaPerch.Net;
-using OxyPlot;
-using OxyPlot.Series;
 using Ozeki.Media;
 using utils;
 using XInputDotNetPure;

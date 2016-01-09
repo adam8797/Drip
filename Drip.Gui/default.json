@@ -8,5 +8,6 @@
   "FramesShownInGraph": 200,
   "YMinimum": 0,
   "YMaximum": 0,
-  "LoggingLevel" : 1
+  "LoggingLevel": 1,
+  "DeadZone": 1
 }
