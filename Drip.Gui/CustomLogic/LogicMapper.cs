@@ -23,7 +23,7 @@ namespace Drip.Gui.CustomLogic
             //Simply change any of the objects below to read = new YOURCLASSHERE();
 
             MotorSubFrameProcessor = new SchiavoneMotorSubProcessor();
-            ServoSubFrameProcessor = new SchiavoneServoSubProcessor();
+            ServoSubFrameProcessor = new NullServoSubProcessor();
             RobotClient = new RobotClient<T>();
             InputProcessor = new SchiavoneInputProcessor();
             DashboardModifier = new DefaultDashboardModifier<T>();

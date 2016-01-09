@@ -16,6 +16,8 @@ namespace Drip.Gui.Processing
 
         //Add ant more fields that you need here
         public bool LightIsOn { get; set; }
+        //public bool camServoUP { get; set; }
+        //public bool camServoDOWN { get; set; }
 
         public Dictionary<GamePadButton, ButtonState> Buttons { get; set; } = new Dictionary<GamePadButton, ButtonState>();
     }

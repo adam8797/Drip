@@ -85,6 +85,7 @@
       <DependentUpon>ServoDisplay.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomLogic\DefaultDashboardModifier.cs" />
+    <Compile Include="CustomLogic\NullServoSubProcessor.cs" />
     <Compile Include="CustomLogic\SchiavoneInputProcessor.cs" />
     <Compile Include="CustomLogic\IllinoisRobotClient.cs" />
     <Compile Include="CustomLogic\SchiavoneServoSubProcessor.cs" />

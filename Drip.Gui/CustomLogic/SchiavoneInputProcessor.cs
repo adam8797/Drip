@@ -39,11 +39,13 @@ namespace Drip.Gui.CustomLogic
             if (previousFrame != null)
             {
                 f.LightIsOn = previousFrame.LightIsOn;
+                //f.camServoUP = previousFrame.camServoUP;
+                //f.camServoDOWN = previousFrame.camServoDOWN;
             }
 
 
             //Compare all the buttons. If their state has changed since the last frame, then we can call the event
-            //So, heres what you do to add events: Follow the example bellow. I use RightBumper for the light, so that
+            //So, heres what you do to add events: Follow the example bellow. I use LeftBumper for the light, so that
             //is a simple example
 
             // ============== Example ==============
@@ -87,7 +89,10 @@ namespace Drip.Gui.CustomLogic
             if (Compare(_previousGamePadState, state, s => s.Buttons.Start))
                 InvokeButtonPress(GamePadButton.Start);
             if (Compare(_previousGamePadState, state, s => s.Buttons.A))
+            {
                 InvokeButtonPress(GamePadButton.A);
+                //f.camServoDOWN = !previousFrame?.camServoDOWN ?? false;
+            }
             if (Compare(_previousGamePadState, state, s => s.Buttons.B))
                 InvokeButtonPress(GamePadButton.B);
             if (Compare(_previousGamePadState, state, s => s.Buttons.Back))
