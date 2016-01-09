@@ -55,10 +55,10 @@ namespace Drip.Gui.CustomLogic
             //Servo
             //I've used command fields 21 - 24
             //They dont exist in the definition of CommandField, so they will have no name
-            _client.SetVariable((CommandField)21, frame.Servos.Servo1.Angle);
-            _client.SetVariable((CommandField)22, frame.Servos.Servo2.Angle);
-            _client.SetVariable((CommandField)23, frame.Servos.Servo3.Angle);
-            _client.SetVariable((CommandField)24, frame.Servos.Servo4.Angle);
+            _client.SetVariable((CommandField)10, frame.Servos.Servo1.Angle);
+            _client.SetVariable((CommandField)11, frame.Servos.Servo2.Angle);
+            _client.SetVariable((CommandField)12, frame.Servos.Servo3.Angle);
+            _client.SetVariable((CommandField)13, frame.Servos.Servo4.Angle);
         }
     }
 }

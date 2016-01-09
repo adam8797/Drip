@@ -47,6 +47,7 @@ namespace Drip.Gui.Processing
                 frame.Servos.Servo3.Update();
                 frame.Servos.Servo4.Update();
 
+
                 //Send the frame to anybody who is listening
                 FrameGenerated?.Invoke(frame);
 
