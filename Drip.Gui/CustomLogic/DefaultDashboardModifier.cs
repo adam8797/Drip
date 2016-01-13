@@ -10,15 +10,15 @@ using XInputDotNetPure;
 
 namespace Drip.Gui.CustomLogic
 {
-    public class DefaultDashboardModifier<T> : IDashboardModifier<T>
+    public class DefaultDashboardModifier : IDashboardModifier
     {
         public void OnDataRecieved(
             IDashboardContract dash,
-            CentralClock<T> centralClock,
-            T data)
+            CentralClock centralClock,
+            object data)
         {
 
-            var responseData = (ResponseData)(object)data;
+            var responseData = (ResponseData)data;
 
             //Update the data on the raw response tab.
             if (dash.SelectedTab == 1)
@@ -100,12 +100,12 @@ namespace Drip.Gui.CustomLogic
             dash.Chart.Invalidate();
         }
 
-        public void OnStateGenerated(IDashboardContract dash, CentralClock<T> clock, GamePadState state)
+        public void OnStateGenerated(IDashboardContract dash, CentralClock clock, GamePadState state)
         {
             
         }
 
-        public void OnRobotFrameGenerated(IDashboardContract dash, CentralClock<T> clock, RobotFrame frame)
+        public void OnRobotFrameGenerated(IDashboardContract dash, CentralClock clock, RobotFrame frame)
         {
 
         }

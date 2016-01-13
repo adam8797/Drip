@@ -9,7 +9,7 @@ using XInputDotNetPure;
 
 namespace Drip.Gui.Processing
 {
-    public class CentralClock<TResponseData>
+    public class CentralClock
     {
         private bool _supressTimer = false;
         private RobotFrame _previousFrame = null;
@@ -33,7 +33,7 @@ namespace Drip.Gui.Processing
                 StateGenerated?.Invoke(padState);
 
                 //Process Gamepad
-                var frame = CustomLogic.LogicMapper<TResponseData>.InputProcessor.ProcessData(padState, _previousFrame);
+                var frame = CustomLogic.LogicMapper.InputProcessor.ProcessData(padState, _previousFrame);
 
                 //Update the frame number
                 if (_previousFrame != null)
@@ -52,13 +52,13 @@ namespace Drip.Gui.Processing
                 FrameGenerated?.Invoke(frame);
 
                 //Get Sensor Data and send it to anybody who is listening
-                DataGenerated?.Invoke(CustomLogic.LogicMapper<TResponseData>.RobotClient.LatestData);
+                DataGenerated?.Invoke(CustomLogic.LogicMapper.RobotClient.LatestData);
 
                 //Update Video
 
 
                 //Send new commands
-                var c = CustomLogic.LogicMapper<TResponseData>.RobotClient;
+                var c = CustomLogic.LogicMapper.RobotClient;
                 c.SendFrame(frame);
 
                 //Stash the current frame away for the next loop.
@@ -69,7 +69,7 @@ namespace Drip.Gui.Processing
 
         public event Action<RobotFrame> FrameGenerated;
         public event Action<GamePadState> StateGenerated;
-        public event Action<TResponseData> DataGenerated;
+        public event Action<object> DataGenerated;
 
         public void Stop()
         {

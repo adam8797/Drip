@@ -24,7 +24,7 @@ namespace Drip.Gui
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Dashboard<ResponseData>());
+            Application.Run(new Dashboard());
 
         }
     }

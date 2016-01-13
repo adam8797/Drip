@@ -11,20 +11,13 @@ using Illinois.SeaPerch.Net;
 
 namespace Drip.Gui.CustomLogic
 {
-    public class IllinoisRobotClient : RobotClient<ResponseData>
+    public class IllinoisRobotClient : RobotClient
     {
         private RoverClient _client;
 
         public IllinoisRobotClient()
         {
-            _client = new RoverClient
-            {
-                ServerIp = ApplicationConfig.Shared.RoverIp,
-                ServerPort = ApplicationConfig.Shared.RoverPort,
-                UpdateRate = ApplicationConfig.Shared.UpdateRate
-            };
-            _client.RoverCommInitiation += ClientOnRoverCommInitiation;
-            _client.RoverPacketReceived += ClientOnRoverPacketReceived;
+            Recycle();
         }
 
         private void ClientOnRoverPacketReceived(RoverPacketReceivedEventArgs eventArgs)
@@ -59,6 +52,31 @@ namespace Drip.Gui.CustomLogic
             _client.SetVariable((CommandField)11, frame.Servos.Servo2.Angle);
             _client.SetVariable((CommandField)12, frame.Servos.Servo3.Angle);
             _client.SetVariable((CommandField)13, frame.Servos.Servo4.Angle);
+        }
+
+        public override void Start()
+        {
+            _client.Start();
+        }
+
+        public override void Recycle()
+        {
+            if (_client != null)
+            {
+                _client.RoverCommInitiation -= ClientOnRoverCommInitiation;
+                _client.RoverPacketReceived -= ClientOnRoverPacketReceived;
+                _client.Stop();
+                _client = null;
+            }
+
+            _client = new RoverClient
+            {
+                ServerIp = ApplicationConfig.Shared.RoverIp,
+                ServerPort = ApplicationConfig.Shared.RoverPort,
+                UpdateRate = ApplicationConfig.Shared.UpdateRate
+            };
+            _client.RoverCommInitiation += ClientOnRoverCommInitiation;
+            _client.RoverPacketReceived += ClientOnRoverPacketReceived;
         }
     }
 }

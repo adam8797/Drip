@@ -122,10 +122,10 @@ namespace Drip.Gui.CustomLogic
 
 
             //Process the joysticks into a motor sub-frame
-            f.Motors = LogicMapper<ResponseData>.MotorSubFrameProcessor.GenerateSubFrame(state, previousFrame);
+            f.Motors = LogicMapper.MotorSubFrameProcessor.GenerateSubFrame(state, previousFrame);
 
             //Process the joysticks into a servo sub-frame
-            f.Servos = LogicMapper<ResponseData>.ServoSubFrameProcessor.GenerateSubFrame(state, previousFrame);
+            f.Servos = LogicMapper.ServoSubFrameProcessor.GenerateSubFrame(state, previousFrame);
 
             
 

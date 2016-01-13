@@ -1,8 +1,8 @@
 ﻿{
   "MainVideoUrl": "",
   "AuxVideoUrl": "",
-  "RoverIp": "",
-  "RoverPort": "",
+  "RoverIp": "192.168.1.19",
+  "RoverPort": "8008",
   "UpdateRate": 15,
   "ServoCoefficient": 1,
   "FramesShownInGraph": 200,

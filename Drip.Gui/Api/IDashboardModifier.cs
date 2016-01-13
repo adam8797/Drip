@@ -9,10 +9,10 @@ using XInputDotNetPure;
 
 namespace Drip.Gui.Api
 {
-    public interface IDashboardModifier<TResponseData>
+    public interface IDashboardModifier
     {
-        void OnDataRecieved(IDashboardContract dash, CentralClock<TResponseData> clock, TResponseData responseData);
-        void OnStateGenerated(IDashboardContract dash, CentralClock<TResponseData> clock, GamePadState state);
-        void OnRobotFrameGenerated(IDashboardContract dash, CentralClock<TResponseData> clock, RobotFrame frame);
+        void OnDataRecieved(IDashboardContract dash, CentralClock clock, object responseData);
+        void OnStateGenerated(IDashboardContract dash, CentralClock clock, GamePadState state);
+        void OnRobotFrameGenerated(IDashboardContract dash, CentralClock clock, RobotFrame frame);
     }
 }

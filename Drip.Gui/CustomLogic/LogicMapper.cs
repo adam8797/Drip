@@ -9,13 +9,13 @@ using Illinois.SeaPerch.Net;
 
 namespace Drip.Gui.CustomLogic
 {
-    public static class LogicMapper<T>
+    public static class LogicMapper
     {
         public static readonly SubProcessor<MotorSubFrame> MotorSubFrameProcessor;
         public static readonly SubProcessor<ServoSubFrame> ServoSubFrameProcessor;
-        public static readonly RobotClient<T> RobotClient;
+        public static readonly RobotClient RobotClient;
         public static readonly InputProcessor InputProcessor;
-        public static readonly IDashboardModifier<T> DashboardModifier; 
+        public static readonly IDashboardModifier DashboardModifier; 
 
         static LogicMapper()
         {
@@ -24,9 +24,9 @@ namespace Drip.Gui.CustomLogic
 
             MotorSubFrameProcessor = new SchiavoneMotorSubProcessor();
             ServoSubFrameProcessor = new NullServoSubProcessor();
-            RobotClient = new RobotClient<T>();
+            RobotClient = new IllinoisRobotClient();
             InputProcessor = new SchiavoneInputProcessor();
-            DashboardModifier = new DefaultDashboardModifier<T>();
+            DashboardModifier = new DefaultDashboardModifier();
         }
 
     }

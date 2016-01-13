@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Drip.Gui.Utility
 {
@@ -22,8 +23,20 @@ namespace Drip.Gui.Utility
         public override void Write(char value)
         {
             base.Write(value);
-            _output.AppendText(value.ToString());
-            _output.ScrollToCaret();
+            try
+            {
+                _output.Invoke((Action)delegate ()
+                            {
+                                _output.AppendText(value.ToString());
+                                _output.ScrollToCaret();
+                            });
+            }
+            catch (InvalidOperationException)
+            {
+                Debug.Write(value);
+            }
+            
+            
         }
     }
 }

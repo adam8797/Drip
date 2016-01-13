@@ -3,7 +3,7 @@ using Drip.Gui.Controls;
 
 namespace Drip.Gui.Forms
 {
-    partial class Dashboard<TResponseData>
+    partial class Dashboard
     {
         /// <summary>
         /// Required designer variable.

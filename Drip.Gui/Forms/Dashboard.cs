@@ -14,10 +14,10 @@ using XInputDotNetPure;
 
 namespace Drip.Gui.Forms
 {
-    public partial class Dashboard<TResponseData> : Form, IDashboardContract
+    public partial class Dashboard : Form, IDashboardContract
     {
         //The main central clock that handles all information retrieval, processing, and output
-        private CentralClock<TResponseData> _centralClock;
+        private CentralClock _centralClock;
 
         public Dashboard()
         {
@@ -26,31 +26,34 @@ namespace Drip.Gui.Forms
             AppConsole.RegisterTextbox(appConsole);
             AppConsole.RedirectConsoleOutput();
 
-            _centralClock = new CentralClock<TResponseData>(this);
+            _centralClock = new CentralClock(this);
 
             _centralClock.FrameGenerated += CentralClockOnFrameGenerated;
             _centralClock.StateGenerated += CentralClockOnStateGenerated;
             _centralClock.DataGenerated += CentralClockOnDataGenerated;
 
+            LogicMapper.RobotClient.Start();
+
             ApplicationConfig.ConfigUpdated += (config) =>
             {
                 auxVideoStream.MJPEGUrl = config.AuxVideoUrl;
                 mainVideoStream.MJPEGUrl = config.MainVideoUrl;
+                LogicMapper.RobotClient.Recycle();
             };
 
             auxVideoStream.MJPEGUrl = ApplicationConfig.Shared.AuxVideoUrl;
             mainVideoStream.MJPEGUrl = ApplicationConfig.Shared.MainVideoUrl;
 
-            LogicMapper<TResponseData>.InputProcessor.ButtonPress += InputProcessorOnButtonPress;
+            LogicMapper.InputProcessor.ButtonPress += InputProcessorOnButtonPress;
         }
 
         #region Processing Event Handlers
 
-        private void CentralClockOnDataGenerated(TResponseData responseData)
+        private void CentralClockOnDataGenerated(object responseData)
         {
             BeginInvoke((Action) (() =>
             {
-                LogicMapper<TResponseData>.DashboardModifier.OnDataRecieved(this, _centralClock, responseData);
+                LogicMapper.DashboardModifier.OnDataRecieved(this, _centralClock, responseData);
             }));
         }
 
@@ -64,7 +67,7 @@ namespace Drip.Gui.Forms
                 leftTrigger.Value = (int) (gamePadState.Triggers.Left*100.0);
                 rightTrigger.Value = (int) (gamePadState.Triggers.Right*100.0);
 
-                LogicMapper<TResponseData>.DashboardModifier.OnStateGenerated(this, _centralClock, gamePadState);
+                LogicMapper.DashboardModifier.OnStateGenerated(this, _centralClock, gamePadState);
             }));
         }
 
@@ -72,7 +75,7 @@ namespace Drip.Gui.Forms
         {
             BeginInvoke((Action) (() =>
             {
-                LogicMapper<TResponseData>.DashboardModifier.OnRobotFrameGenerated(this, _centralClock, robotFrame);
+                LogicMapper.DashboardModifier.OnRobotFrameGenerated(this, _centralClock, robotFrame);
 
                 propA.Value = (int)(robotFrame.Motors.ThrusterA.Value*100);
                 propB.Value = (int)(robotFrame.Motors.ThrusterB.Value*100);

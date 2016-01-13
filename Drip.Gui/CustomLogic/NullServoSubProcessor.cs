@@ -21,14 +21,21 @@ namespace Drip.Gui.CustomLogic
             if (state.Buttons.A == ButtonState.Pressed)
             {
                 servos.Servo1.SetVelocity(1.0f);
+                servos.Servo2.SetVelocity(-1.0f);
+                servos.Servo3.SetVelocity(0.4f);
             }
             else if (state.Buttons.B == ButtonState.Pressed)
             {
                 servos.Servo1.SetVelocity(-1.0f);
+                servos.Servo2.SetVelocity(1.0f);
+                servos.Servo3.SetVelocity(-0.4f);
             }
             else
             {
                 servos.Servo1.SetVelocity(0.0f);
+                servos.Servo2.SetVelocity(0.0f);
+                servos.Servo3.SetVelocity(0.0f);
+
             }
 
             return servos;
