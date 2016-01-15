@@ -104,7 +104,6 @@
     <Compile Include="Processing\RobotFrame.cs" />
     <Compile Include="Processing\ServoSubFrame.cs" />
     <Compile Include="External\ThreadedTimer.cs" />
-    <Compile Include="Utility\AppConsole.cs" />
     <Compile Include="Utility\ApplicationConfig.cs" />
     <Compile Include="Processing\CentralClock.cs" />
     <Compile Include="Controls\Gauge.cs">
@@ -122,7 +121,6 @@
     <Compile Include="Processing\GamePadButton.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utility\TextBoxTextWriter.cs" />
     <Compile Include="Utility\Util.cs" />
     <EmbeddedResource Include="Controls\Gauge.resx">
       <DependentUpon>Gauge.cs</DependentUpon>
@@ -169,6 +167,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Drip.Console\Drip.Console.csproj">
+      <Project>{6cc27a73-bea4-434d-94ae-a32fd349f551}</Project>
+      <Name>Drip.Console</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Library\Illinois.SeaPerch.Net\Illinois.SeaPerch.Net.csproj">
       <Project>{df9b7059-1d0f-46ff-a2a9-f44c7b849f50}</Project>
       <Name>Illinois.SeaPerch.Net</Name>

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Drip.AppConsole;
 using Drip.Gui.Api;
 using Drip.Gui.Processing;
 using Drip.Gui.Utility;
@@ -23,16 +24,21 @@ namespace Drip.Gui.CustomLogic
         private void ClientOnRoverPacketReceived(RoverPacketReceivedEventArgs eventArgs)
         {
             LatestData = eventArgs.ResponseData;
-            AppConsole.WriteLine("Recieved data. Timestamp: " + eventArgs.ResponseData.MessageTime.ToString("G"), EventLevel.Debugging);
+            AppConsole.AppConsole.WriteLine("Recieved data. Timestamp: " + eventArgs.ResponseData.MessageTime.ToString("G"), EventLevel.Debugging);
         }
 
         private void ClientOnRoverCommInitiation(RoverClientInitializationEventArgs eventArgs)
         {
-            AppConsole.WriteLine("Rover Client is connected", EventLevel.Logging);
+            AppConsole.AppConsole.WriteLine("Rover Client is connected", EventLevel.Logging);
         }
+
+        public bool SkipFrame = false;
 
         public override void SendFrame(RobotFrame frame)
         {
+            if (SkipFrame)
+                return;
+
             //Standard old variables
             _client.SetVariable(CommandField.PropellerA_mode, frame.Motors.ThrusterA.Mode);
             _client.SetVariable(CommandField.PropellerA_speed, (int)Math.Abs(frame.Motors.ThrusterA.Value * 100.0));
@@ -63,6 +69,7 @@ namespace Drip.Gui.CustomLogic
         {
             if (_client != null)
             {
+                SkipFrame = true;
                 _client.RoverCommInitiation -= ClientOnRoverCommInitiation;
                 _client.RoverPacketReceived -= ClientOnRoverPacketReceived;
                 _client.Stop();
@@ -77,6 +84,8 @@ namespace Drip.Gui.CustomLogic
             };
             _client.RoverCommInitiation += ClientOnRoverCommInitiation;
             _client.RoverPacketReceived += ClientOnRoverPacketReceived;
+
+            SkipFrame = false;
         }
     }
 }

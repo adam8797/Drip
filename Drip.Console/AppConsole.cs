@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Drip.Gui.Utility
+namespace Drip.AppConsole
 {
     public static class AppConsole
     {
@@ -19,20 +15,20 @@ namespace Drip.Gui.Utility
 
         public static void RedirectConsoleOutput()
         {
-            Console.SetOut(writer);
+            System.Console.SetOut(writer);
         }
-        
 
         public static void WriteLine(string line, EventLevel el = EventLevel.Logging)
         {
             Write(line + "\n", el);
         }
 
+        public static EventLevel LoggingLevel { get; set; }
+
         public static void Write(string line, EventLevel el = EventLevel.Logging)
         {
             Debug.Write($"[{DateTime.Now.ToString("MM-dd-yy hh:mm:ss")}] [{el}]: {line}");
-            var level = ApplicationConfig.ConfigLoaded ? ApplicationConfig.Shared.LoggingLevel : EventLevel.Debugging;
-            if (el >= level)
+            if (el >= LoggingLevel)
             {
                 foreach (var c in line)
                 {

@@ -16,7 +16,7 @@ namespace Drip.Gui.Processing
         private ThreadedTimer _timer;
 
         public int LastFrameIndex => _previousFrame.FrameNumber;
-
+        
         public CentralClock(Form caller)
         {
             int delay = 1000/ApplicationConfig.Shared.UpdateRate;

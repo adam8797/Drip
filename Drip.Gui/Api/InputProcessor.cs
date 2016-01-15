@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using Drip.AppConsole;
 using Drip.Gui.Processing;
 using Drip.Gui.Utility;
 using XInputDotNetPure;
@@ -19,7 +20,7 @@ namespace Drip.Gui.Api
 
         protected void InvokeButtonPress(GamePadButton b)
         {
-            AppConsole.WriteLine("Button Press: " + b, EventLevel.Debugging);
+            AppConsole.AppConsole.WriteLine("Button Press: " + b, EventLevel.Debugging);
             ButtonPress?.Invoke(b);
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Drip.AppConsole;
 using Newtonsoft.Json;
 using XInputDotNetPure;
 
@@ -16,7 +17,7 @@ namespace Drip.Gui.Utility
             {
                 if (_shared == null)
                 {
-                    AppConsole.WriteLine("Loading Default Configuration...");
+                    AppConsole.AppConsole.WriteLine("Loading Default Configuration...");
                     _shared = JsonConvert.DeserializeObject<ApplicationConfig>(File.ReadAllText("default.json"));
                 }
                 return _shared;
@@ -24,7 +25,7 @@ namespace Drip.Gui.Utility
             set
             {
                 _shared = value;
-                AppConsole.WriteLine("System Configuration Updated");
+                AppConsole.AppConsole.WriteLine("System Configuration Updated");
                 ConfigUpdated?.Invoke(value);
             }
         }
@@ -35,13 +36,13 @@ namespace Drip.Gui.Utility
 
         public static void Load(string path)
         {
-            AppConsole.WriteLine("Loading configuration from file: " + path);
+            AppConsole.AppConsole.WriteLine("Loading configuration from file: " + path);
             Shared = JsonConvert.DeserializeObject<ApplicationConfig>(File.ReadAllText(path));
         }
 
         public static void Save(ApplicationConfig cfg, string path)
         {
-            AppConsole.WriteLine("Saving configuration to file: " + path);
+            AppConsole.AppConsole.WriteLine("Saving configuration to file: " + path);
             File.WriteAllText(path, JsonConvert.SerializeObject(cfg, Formatting.Indented));
         }
 

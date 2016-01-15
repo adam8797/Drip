@@ -18,6 +18,9 @@ namespace Drip.Gui.CustomLogic
             object data)
         {
 
+            if (data == null)
+                return;
+
             var responseData = (ResponseData)data;
 
             //Update the data on the raw response tab.

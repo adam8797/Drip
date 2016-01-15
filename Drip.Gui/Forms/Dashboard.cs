@@ -23,8 +23,8 @@ namespace Drip.Gui.Forms
         {
             InitializeComponent();
 
-            AppConsole.RegisterTextbox(appConsole);
-            AppConsole.RedirectConsoleOutput();
+            AppConsole.AppConsole.RegisterTextbox(appConsole);
+            AppConsole.AppConsole.RedirectConsoleOutput();
 
             _centralClock = new CentralClock(this);
 
@@ -38,7 +38,6 @@ namespace Drip.Gui.Forms
             {
                 auxVideoStream.MJPEGUrl = config.AuxVideoUrl;
                 mainVideoStream.MJPEGUrl = config.MainVideoUrl;
-                LogicMapper.RobotClient.Recycle();
             };
 
             auxVideoStream.MJPEGUrl = ApplicationConfig.Shared.AuxVideoUrl;
