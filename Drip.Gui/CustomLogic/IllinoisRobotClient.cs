@@ -39,41 +39,43 @@ namespace Drip.Gui.CustomLogic
             if (SkipFrame)
                 return;
 
-            //Standard old variables
-            _client.SetVariable(CommandField.PropellerA_mode, frame.Motors.ThrusterA.Mode);
-            _client.SetVariable(CommandField.PropellerA_speed, (int)Math.Abs(frame.Motors.ThrusterA.Value * 100.0));
+            lock (_client)
+            {
+                //Standard old variables
 
-            _client.SetVariable(CommandField.PropellerB_mode, frame.Motors.ThrusterB.Mode);
-            _client.SetVariable(CommandField.PropellerB_speed, (int)Math.Abs(frame.Motors.ThrusterB.Value * 100.0));
+                _client.SetVariable(CommandField.PropellerA_mode, frame.Motors.ThrusterA.Mode);
+                _client.SetVariable(CommandField.PropellerA_speed, (int) Math.Abs(frame.Motors.ThrusterA.Value*100.0));
 
-            _client.SetVariable(CommandField.PropellerC_mode, frame.Motors.ThrusterC.Mode);
-            _client.SetVariable(CommandField.PropellerC_speed, (int)Math.Abs(frame.Motors.ThrusterC.Value * 100.0));
+                _client.SetVariable(CommandField.PropellerB_mode, frame.Motors.ThrusterB.Mode);
+                _client.SetVariable(CommandField.PropellerB_speed, (int) Math.Abs(frame.Motors.ThrusterB.Value*100.0));
 
-            _client.SetVariable(CommandField.Light, frame.LightIsOn ? 1:0);
+                _client.SetVariable(CommandField.PropellerC_mode, frame.Motors.ThrusterC.Mode);
+                _client.SetVariable(CommandField.PropellerC_speed, (int) Math.Abs(frame.Motors.ThrusterC.Value*100.0));
 
-            //Servo
-            //I've used command fields 21 - 24
-            //They dont exist in the definition of CommandField, so they will have no name
-            _client.SetVariable((CommandField)10, frame.Servos.Servo1.Angle);
-            _client.SetVariable((CommandField)11, frame.Servos.Servo2.Angle);
-            _client.SetVariable((CommandField)12, frame.Servos.Servo3.Angle);
-            _client.SetVariable((CommandField)13, frame.Servos.Servo4.Angle);
-        }
+                _client.SetVariable(CommandField.Light, frame.LightIsOn ? 1 : 0);
 
-        public override void Start()
-        {
-            _client.Start();
+                //Servo
+                //I've used command fields 21 - 24
+                //They dont exist in the definition of CommandField, so they will have no name
+                _client.SetVariable((CommandField) 10, frame.Servos.Servo1.Angle);
+                _client.SetVariable((CommandField) 11, frame.Servos.Servo2.Angle);
+                _client.SetVariable((CommandField) 12, frame.Servos.Servo3.Angle);
+                _client.SetVariable((CommandField) 13, frame.Servos.Servo4.Angle);
+            }
         }
 
         public override void Recycle()
         {
             if (_client != null)
             {
-                SkipFrame = true;
-                _client.RoverCommInitiation -= ClientOnRoverCommInitiation;
-                _client.RoverPacketReceived -= ClientOnRoverPacketReceived;
-                _client.Stop();
-                _client = null;
+                lock (_client)
+                {
+                    SkipFrame = true;
+                    _client.RoverCommInitiation -= ClientOnRoverCommInitiation;
+                    _client.RoverPacketReceived -= ClientOnRoverPacketReceived;
+                    _client.Stop();
+                    _client = null;
+                }
             }
 
             _client = new RoverClient
@@ -84,6 +86,7 @@ namespace Drip.Gui.CustomLogic
             };
             _client.RoverCommInitiation += ClientOnRoverCommInitiation;
             _client.RoverPacketReceived += ClientOnRoverPacketReceived;
+            _client.Start();
 
             SkipFrame = false;
         }

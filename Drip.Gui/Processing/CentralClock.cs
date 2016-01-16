@@ -6,6 +6,7 @@ using Drip.Gui.Utility;
 using Illinois.SeaPerch.Net;
 using ROVControl;
 using XInputDotNetPure;
+using Drip.Gui.CustomLogic;
 
 namespace Drip.Gui.Processing
 {
@@ -21,7 +22,11 @@ namespace Drip.Gui.Processing
         {
             int delay = 1000/ApplicationConfig.Shared.UpdateRate;
 
-            ApplicationConfig.ConfigUpdated += config => _timer.DelayTime = 1000/config.UpdateRate;
+            ApplicationConfig.ConfigUpdated += config =>
+            {
+                _timer.DelayTime = 1000/config.UpdateRate;
+                LogicMapper.RobotClient.Recycle();
+            };
             
 
             _timer = new ThreadedTimer(() =>
@@ -33,7 +38,7 @@ namespace Drip.Gui.Processing
                 StateGenerated?.Invoke(padState);
 
                 //Process Gamepad
-                var frame = CustomLogic.LogicMapper.InputProcessor.ProcessData(padState, _previousFrame);
+                var frame = LogicMapper.InputProcessor.ProcessData(padState, _previousFrame);
 
                 //Update the frame number
                 if (_previousFrame != null)
@@ -52,13 +57,13 @@ namespace Drip.Gui.Processing
                 FrameGenerated?.Invoke(frame);
 
                 //Get Sensor Data and send it to anybody who is listening
-                DataGenerated?.Invoke(CustomLogic.LogicMapper.RobotClient.LatestData);
+                DataGenerated?.Invoke(LogicMapper.RobotClient.LatestData);
 
                 //Update Video
 
 
                 //Send new commands
-                var c = CustomLogic.LogicMapper.RobotClient;
+                var c = LogicMapper.RobotClient;
                 c.SendFrame(frame);
 
                 //Stash the current frame away for the next loop.
