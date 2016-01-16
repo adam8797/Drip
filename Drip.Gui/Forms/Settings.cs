@@ -20,6 +20,8 @@ namespace Drip.Gui.Forms
             InitializeComponent();
         }
 
+        private ApplicationConfig _previousConfig = null;
+
         private void btnSave_Click(object sender, EventArgs e)
         {
             var cfg = new ApplicationConfig()
@@ -38,6 +40,11 @@ namespace Drip.Gui.Forms
             };
 
             ApplicationConfig.Shared = cfg;
+
+            if (_previousConfig != null && !string.IsNullOrEmpty(_previousConfig.LoadedFrom))
+            {
+                ApplicationConfig.Save(ApplicationConfig.Shared, _previousConfig.LoadedFrom);
+            }
 
             Close();
         }
@@ -62,6 +69,13 @@ namespace Drip.Gui.Forms
             numYMax.Value = cfg.YMaximum;
             numYMin.Value = cfg.YMinimum;
             loggingLevel.SelectedIndex = (int)cfg.LoggingLevel;
+
+            _previousConfig = cfg;
+
+            if (!string.IsNullOrEmpty(cfg.LoadedFrom))
+            {
+                lblPath.Text = "Settings Loaded From: " + cfg.LoadedFrom;
+            }
         }
     }
 }

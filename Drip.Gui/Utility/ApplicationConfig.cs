@@ -38,6 +38,7 @@ namespace Drip.Gui.Utility
         {
             AppConsole.AppConsole.WriteLine("Loading configuration from file: " + path);
             Shared = JsonConvert.DeserializeObject<ApplicationConfig>(File.ReadAllText(path));
+            Shared.LoadedFrom = path;
         }
 
         public static void Save(ApplicationConfig cfg, string path)
@@ -45,6 +46,14 @@ namespace Drip.Gui.Utility
             AppConsole.AppConsole.WriteLine("Saving configuration to file: " + path);
             File.WriteAllText(path, JsonConvert.SerializeObject(cfg, Formatting.Indented));
         }
+
+        public static void Save(ApplicationConfig cfg)
+        {
+            Save(cfg, cfg.LoadedFrom);
+        }
+
+        [JsonIgnore]
+        public string LoadedFrom { get; set; }
 
         //Properties
         public string MainVideoUrl { get; set; }

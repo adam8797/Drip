@@ -109,14 +109,14 @@ namespace Drip.Gui.CustomLogic
             if (Compare(_previousGamePadState, state, s => s.Buttons.X))
             {
                 InvokeButtonPress(GamePadButton.X);
-                if (ApplicationConfig.Shared.ServoCoefficient > 0.01)
-                    ApplicationConfig.Shared.ServoCoefficient *= 0.9m;
+                if (ApplicationConfig.Shared.ServoCoefficient >= 0.06m)
+                    ApplicationConfig.Shared.ServoCoefficient -= 0.05m;
             }
             if (Compare(_previousGamePadState, state, s => s.Buttons.Y))
             {
                 InvokeButtonPress(GamePadButton.Y);
-                if (ApplicationConfig.Shared.ServoCoefficient < 3.00)
-                    ApplicationConfig.Shared.ServoCoefficient *= 1.1m;
+                if (ApplicationConfig.Shared.ServoCoefficient <= 9.95m)
+                    ApplicationConfig.Shared.ServoCoefficient += 0.05m;
             }
 
             //Dpad

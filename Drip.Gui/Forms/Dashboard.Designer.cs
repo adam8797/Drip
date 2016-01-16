@@ -37,12 +37,21 @@ namespace Drip.Gui.Forms
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.propA = new Drip.Gui.Controls.MotorGuage();
+            this.propC = new Drip.Gui.Controls.MotorGuage();
+            this.propB = new Drip.Gui.Controls.MotorGuage();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.mainVideoStream = new Drip.Gui.Controls.MJPEGVideo();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.auxVideoStream = new Drip.Gui.Controls.MJPEGVideo();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.rightTrigger = new Drip.Gui.Controls.Gauge();
+            this.leftTrigger = new Drip.Gui.Controls.Gauge();
+            this.rightThumbstick = new Drip.Gui.Controls.JoystickDisplay();
+            this.leftThumbstick = new Drip.Gui.Controls.JoystickDisplay();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.lblLight = new System.Windows.Forms.Label();
             this.outputTabs = new System.Windows.Forms.TabControl();
@@ -84,7 +93,12 @@ namespace Drip.Gui.Forms
             this.label8 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.servo4 = new Drip.Gui.Controls.ServoDisplay();
+            this.servo3 = new Drip.Gui.Controls.ServoDisplay();
+            this.servo2 = new Drip.Gui.Controls.ServoDisplay();
+            this.servo1 = new Drip.Gui.Controls.ServoDisplay();
             this.pageConsole = new System.Windows.Forms.TabPage();
+            this.appConsole = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -92,20 +106,8 @@ namespace Drip.Gui.Forms
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.servo4 = new Drip.Gui.Controls.ServoDisplay();
-            this.servo3 = new Drip.Gui.Controls.ServoDisplay();
-            this.servo2 = new Drip.Gui.Controls.ServoDisplay();
-            this.servo1 = new Drip.Gui.Controls.ServoDisplay();
-            this.rightTrigger = new Drip.Gui.Controls.Gauge();
-            this.leftTrigger = new Drip.Gui.Controls.Gauge();
-            this.rightThumbstick = new Drip.Gui.Controls.JoystickDisplay();
-            this.leftThumbstick = new Drip.Gui.Controls.JoystickDisplay();
-            this.auxVideoStream = new Drip.Gui.Controls.MJPEGVideo();
-            this.mainVideoStream = new Drip.Gui.Controls.MJPEGVideo();
-            this.propA = new Drip.Gui.Controls.MotorGuage();
-            this.propC = new Drip.Gui.Controls.MotorGuage();
-            this.propB = new Drip.Gui.Controls.MotorGuage();
-            this.appConsole = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.lblServo = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -134,6 +136,39 @@ namespace Drip.Gui.Forms
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Propeller Output";
+            // 
+            // propA
+            // 
+            this.propA.DangerColor = System.Drawing.Color.Chartreuse;
+            this.propA.Location = new System.Drawing.Point(8, 19);
+            this.propA.Name = "propA";
+            this.propA.NormalColor = System.Drawing.Color.Chartreuse;
+            this.propA.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.propA.Size = new System.Drawing.Size(40, 182);
+            this.propA.TabIndex = 23;
+            this.propA.Value = 0;
+            // 
+            // propC
+            // 
+            this.propC.DangerColor = System.Drawing.Color.Chartreuse;
+            this.propC.Location = new System.Drawing.Point(138, 19);
+            this.propC.Name = "propC";
+            this.propC.NormalColor = System.Drawing.Color.Chartreuse;
+            this.propC.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.propC.Size = new System.Drawing.Size(40, 182);
+            this.propC.TabIndex = 22;
+            this.propC.Value = 0;
+            // 
+            // propB
+            // 
+            this.propB.DangerColor = System.Drawing.Color.Chartreuse;
+            this.propB.Location = new System.Drawing.Point(71, 19);
+            this.propB.Name = "propB";
+            this.propB.NormalColor = System.Drawing.Color.Chartreuse;
+            this.propB.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.propB.Size = new System.Drawing.Size(40, 182);
+            this.propB.TabIndex = 21;
+            this.propB.Value = 0;
             // 
             // label4
             // 
@@ -172,6 +207,21 @@ namespace Drip.Gui.Forms
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Main Video Stream";
             // 
+            // mainVideoStream
+            // 
+            this.mainVideoStream.BackColor = System.Drawing.Color.Black;
+            this.mainVideoStream.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainVideoStream.FlipMode = Ozeki.Media.FlipMode.None;
+            this.mainVideoStream.FrameStretch = Ozeki.Media.FrameStretch.Uniform;
+            this.mainVideoStream.FullScreenEnabled = true;
+            this.mainVideoStream.Location = new System.Drawing.Point(3, 16);
+            this.mainVideoStream.MJPEGUrl = null;
+            this.mainVideoStream.Name = "mainVideoStream";
+            this.mainVideoStream.RotateAngle = 0;
+            this.mainVideoStream.Size = new System.Drawing.Size(762, 413);
+            this.mainVideoStream.TabIndex = 0;
+            this.mainVideoStream.Text = "videoViewerWF1";
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.auxVideoStream);
@@ -181,6 +231,21 @@ namespace Drip.Gui.Forms
             this.groupBox3.TabIndex = 10;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Aux Video Stream";
+            // 
+            // auxVideoStream
+            // 
+            this.auxVideoStream.BackColor = System.Drawing.Color.Black;
+            this.auxVideoStream.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.auxVideoStream.FlipMode = Ozeki.Media.FlipMode.None;
+            this.auxVideoStream.FrameStretch = Ozeki.Media.FrameStretch.Uniform;
+            this.auxVideoStream.FullScreenEnabled = true;
+            this.auxVideoStream.Location = new System.Drawing.Point(3, 16);
+            this.auxVideoStream.MJPEGUrl = null;
+            this.auxVideoStream.Name = "auxVideoStream";
+            this.auxVideoStream.RotateAngle = 0;
+            this.auxVideoStream.Size = new System.Drawing.Size(250, 125);
+            this.auxVideoStream.TabIndex = 0;
+            this.auxVideoStream.Text = "videoViewerWF2";
             // 
             // groupBox4
             // 
@@ -195,8 +260,52 @@ namespace Drip.Gui.Forms
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Gamepad";
             // 
+            // rightTrigger
+            // 
+            this.rightTrigger.GuageColor = System.Drawing.Color.Chartreuse;
+            this.rightTrigger.Location = new System.Drawing.Point(155, 153);
+            this.rightTrigger.MaxValue = 100;
+            this.rightTrigger.MinValue = 0;
+            this.rightTrigger.Name = "rightTrigger";
+            this.rightTrigger.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.rightTrigger.Size = new System.Drawing.Size(100, 40);
+            this.rightTrigger.TabIndex = 17;
+            this.rightTrigger.Value = 0;
+            // 
+            // leftTrigger
+            // 
+            this.leftTrigger.GuageColor = System.Drawing.Color.Chartreuse;
+            this.leftTrigger.Location = new System.Drawing.Point(20, 153);
+            this.leftTrigger.MaxValue = 100;
+            this.leftTrigger.MinValue = 0;
+            this.leftTrigger.Name = "leftTrigger";
+            this.leftTrigger.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.leftTrigger.Size = new System.Drawing.Size(100, 40);
+            this.leftTrigger.TabIndex = 16;
+            this.leftTrigger.Value = 0;
+            // 
+            // rightThumbstick
+            // 
+            this.rightThumbstick.DotSize = 15;
+            this.rightThumbstick.GuageMargin = 5;
+            this.rightThumbstick.Location = new System.Drawing.Point(140, 17);
+            this.rightThumbstick.Name = "rightThumbstick";
+            this.rightThumbstick.Size = new System.Drawing.Size(130, 130);
+            this.rightThumbstick.TabIndex = 15;
+            // 
+            // leftThumbstick
+            // 
+            this.leftThumbstick.DotSize = 15;
+            this.leftThumbstick.GuageMargin = 5;
+            this.leftThumbstick.Location = new System.Drawing.Point(5, 17);
+            this.leftThumbstick.Name = "leftThumbstick";
+            this.leftThumbstick.Size = new System.Drawing.Size(130, 130);
+            this.leftThumbstick.TabIndex = 14;
+            // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.lblServo);
+            this.groupBox5.Controls.Add(this.label12);
             this.groupBox5.Controls.Add(this.lblLight);
             this.groupBox5.Location = new System.Drawing.Point(209, 27);
             this.groupBox5.Name = "groupBox5";
@@ -666,71 +775,6 @@ namespace Drip.Gui.Forms
             this.label2.TabIndex = 8;
             this.label2.Text = "Servo 1";
             // 
-            // pageConsole
-            // 
-            this.pageConsole.Controls.Add(this.appConsole);
-            this.pageConsole.Location = new System.Drawing.Point(4, 22);
-            this.pageConsole.Name = "pageConsole";
-            this.pageConsole.Padding = new System.Windows.Forms.Padding(3);
-            this.pageConsole.Size = new System.Drawing.Size(778, 141);
-            this.pageConsole.TabIndex = 1;
-            this.pageConsole.Text = "Console";
-            this.pageConsole.UseVisualStyleBackColor = true;
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1078, 24);
-            this.menuStrip1.TabIndex = 15;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadConfigToolStripMenuItem,
-            this.saveConfigToolStripMenuItem,
-            this.toolStripSeparator1,
-            this.settingsToolStripMenuItem,
-            this.exitToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
-            // 
-            // loadConfigToolStripMenuItem
-            // 
-            this.loadConfigToolStripMenuItem.Name = "loadConfigToolStripMenuItem";
-            this.loadConfigToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
-            this.loadConfigToolStripMenuItem.Text = "Load Config";
-            this.loadConfigToolStripMenuItem.Click += new System.EventHandler(this.loadConfigToolStripMenuItem_Click);
-            // 
-            // saveConfigToolStripMenuItem
-            // 
-            this.saveConfigToolStripMenuItem.Name = "saveConfigToolStripMenuItem";
-            this.saveConfigToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
-            this.saveConfigToolStripMenuItem.Text = "Save Config";
-            this.saveConfigToolStripMenuItem.Click += new System.EventHandler(this.saveConfigToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(136, 6);
-            // 
-            // settingsToolStripMenuItem
-            // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
-            this.settingsToolStripMenuItem.Text = "Settings";
-            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            // 
             // servo4
             // 
             this.servo4.Angle = 45;
@@ -787,110 +831,16 @@ namespace Drip.Gui.Forms
             this.servo1.Size = new System.Drawing.Size(169, 104);
             this.servo1.TabIndex = 4;
             // 
-            // rightTrigger
+            // pageConsole
             // 
-            this.rightTrigger.GuageColor = System.Drawing.Color.Chartreuse;
-            this.rightTrigger.Location = new System.Drawing.Point(155, 153);
-            this.rightTrigger.MaxValue = 100;
-            this.rightTrigger.MinValue = 0;
-            this.rightTrigger.Name = "rightTrigger";
-            this.rightTrigger.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            this.rightTrigger.Size = new System.Drawing.Size(100, 40);
-            this.rightTrigger.TabIndex = 17;
-            this.rightTrigger.Value = 0;
-            // 
-            // leftTrigger
-            // 
-            this.leftTrigger.GuageColor = System.Drawing.Color.Chartreuse;
-            this.leftTrigger.Location = new System.Drawing.Point(20, 153);
-            this.leftTrigger.MaxValue = 100;
-            this.leftTrigger.MinValue = 0;
-            this.leftTrigger.Name = "leftTrigger";
-            this.leftTrigger.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            this.leftTrigger.Size = new System.Drawing.Size(100, 40);
-            this.leftTrigger.TabIndex = 16;
-            this.leftTrigger.Value = 0;
-            // 
-            // rightThumbstick
-            // 
-            this.rightThumbstick.DotSize = 15;
-            this.rightThumbstick.GuageMargin = 5;
-            this.rightThumbstick.Location = new System.Drawing.Point(140, 17);
-            this.rightThumbstick.Name = "rightThumbstick";
-            this.rightThumbstick.Size = new System.Drawing.Size(130, 130);
-            this.rightThumbstick.TabIndex = 15;
-            // 
-            // leftThumbstick
-            // 
-            this.leftThumbstick.DotSize = 15;
-            this.leftThumbstick.GuageMargin = 5;
-            this.leftThumbstick.Location = new System.Drawing.Point(5, 17);
-            this.leftThumbstick.Name = "leftThumbstick";
-            this.leftThumbstick.Size = new System.Drawing.Size(130, 130);
-            this.leftThumbstick.TabIndex = 14;
-            // 
-            // auxVideoStream
-            // 
-            this.auxVideoStream.BackColor = System.Drawing.Color.Black;
-            this.auxVideoStream.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.auxVideoStream.FlipMode = Ozeki.Media.FlipMode.None;
-            this.auxVideoStream.FrameStretch = Ozeki.Media.FrameStretch.Uniform;
-            this.auxVideoStream.FullScreenEnabled = true;
-            this.auxVideoStream.Location = new System.Drawing.Point(3, 16);
-            this.auxVideoStream.MJPEGUrl = null;
-            this.auxVideoStream.Name = "auxVideoStream";
-            this.auxVideoStream.RotateAngle = 0;
-            this.auxVideoStream.Size = new System.Drawing.Size(250, 125);
-            this.auxVideoStream.TabIndex = 0;
-            this.auxVideoStream.Text = "videoViewerWF2";
-            // 
-            // mainVideoStream
-            // 
-            this.mainVideoStream.BackColor = System.Drawing.Color.Black;
-            this.mainVideoStream.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainVideoStream.FlipMode = Ozeki.Media.FlipMode.None;
-            this.mainVideoStream.FrameStretch = Ozeki.Media.FrameStretch.Uniform;
-            this.mainVideoStream.FullScreenEnabled = true;
-            this.mainVideoStream.Location = new System.Drawing.Point(3, 16);
-            this.mainVideoStream.MJPEGUrl = null;
-            this.mainVideoStream.Name = "mainVideoStream";
-            this.mainVideoStream.RotateAngle = 0;
-            this.mainVideoStream.Size = new System.Drawing.Size(762, 413);
-            this.mainVideoStream.TabIndex = 0;
-            this.mainVideoStream.Text = "videoViewerWF1";
-            // 
-            // propA
-            // 
-            this.propA.DangerColor = System.Drawing.Color.Chartreuse;
-            this.propA.Location = new System.Drawing.Point(8, 19);
-            this.propA.Name = "propA";
-            this.propA.NormalColor = System.Drawing.Color.Chartreuse;
-            this.propA.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.propA.Size = new System.Drawing.Size(40, 182);
-            this.propA.TabIndex = 23;
-            this.propA.Value = 0;
-            // 
-            // propC
-            // 
-            this.propC.DangerColor = System.Drawing.Color.Chartreuse;
-            this.propC.Location = new System.Drawing.Point(138, 19);
-            this.propC.Name = "propC";
-            this.propC.NormalColor = System.Drawing.Color.Chartreuse;
-            this.propC.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.propC.Size = new System.Drawing.Size(40, 182);
-            this.propC.TabIndex = 22;
-            this.propC.Value = 0;
-            // 
-            // propB
-            // 
-            this.propB.DangerColor = System.Drawing.Color.Chartreuse;
-            this.propB.Location = new System.Drawing.Point(71, 19);
-            this.propB.Name = "propB";
-            this.propB.NormalColor = System.Drawing.Color.Chartreuse;
-            this.propB.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.propB.Size = new System.Drawing.Size(40, 182);
-            this.propB.TabIndex = 21;
-            this.propB.Value = 0;
+            this.pageConsole.Controls.Add(this.appConsole);
+            this.pageConsole.Location = new System.Drawing.Point(4, 22);
+            this.pageConsole.Name = "pageConsole";
+            this.pageConsole.Padding = new System.Windows.Forms.Padding(3);
+            this.pageConsole.Size = new System.Drawing.Size(778, 141);
+            this.pageConsole.TabIndex = 1;
+            this.pageConsole.Text = "Console";
+            this.pageConsole.UseVisualStyleBackColor = true;
             // 
             // appConsole
             // 
@@ -903,6 +853,78 @@ namespace Drip.Gui.Forms
             this.appConsole.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.appConsole.Size = new System.Drawing.Size(772, 135);
             this.appConsole.TabIndex = 0;
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1078, 24);
+            this.menuStrip1.TabIndex = 15;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadConfigToolStripMenuItem,
+            this.saveConfigToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.settingsToolStripMenuItem,
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // loadConfigToolStripMenuItem
+            // 
+            this.loadConfigToolStripMenuItem.Name = "loadConfigToolStripMenuItem";
+            this.loadConfigToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.loadConfigToolStripMenuItem.Text = "Load Config";
+            this.loadConfigToolStripMenuItem.Click += new System.EventHandler(this.loadConfigToolStripMenuItem_Click);
+            // 
+            // saveConfigToolStripMenuItem
+            // 
+            this.saveConfigToolStripMenuItem.Name = "saveConfigToolStripMenuItem";
+            this.saveConfigToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.saveConfigToolStripMenuItem.Text = "Save Config";
+            this.saveConfigToolStripMenuItem.Click += new System.EventHandler(this.saveConfigToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(136, 6);
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold);
+            this.label12.Location = new System.Drawing.Point(6, 142);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(74, 52);
+            this.label12.TabIndex = 1;
+            this.label12.Text = "Servo\r\nCoeff";
+            // 
+            // lblServo
+            // 
+            this.lblServo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.lblServo.Location = new System.Drawing.Point(6, 194);
+            this.lblServo.Name = "lblServo";
+            this.lblServo.Size = new System.Drawing.Size(80, 23);
+            this.lblServo.TabIndex = 2;
             // 
             // Dashboard
             // 
@@ -926,6 +948,7 @@ namespace Drip.Gui.Forms
             this.groupBox3.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.outputTabs.ResumeLayout(false);
             this.pageGraphs.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
@@ -1012,5 +1035,7 @@ namespace Drip.Gui.Forms
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart;
         private System.Windows.Forms.TextBox appConsole;
+        private System.Windows.Forms.Label lblServo;
+        private System.Windows.Forms.Label label12;
     }
 }

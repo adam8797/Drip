@@ -92,6 +92,8 @@ namespace Drip.Gui.Forms
                     servo3.Angle = robotFrame.Servos.Servo3.Angle;
                     servo4.Angle = robotFrame.Servos.Servo4.Angle;
                 }
+
+                lblServo.Text = ApplicationConfig.Shared.ServoCoefficient.ToString("F2");
             }));
         }
 

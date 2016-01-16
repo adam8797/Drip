@@ -47,7 +47,10 @@
             this.label4 = new System.Windows.Forms.Label();
             this.robotIp = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.loggingLevel = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.fps = new System.Windows.Forms.NumericUpDown();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -63,9 +66,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.numFrames = new System.Windows.Forms.NumericUpDown();
-            this.label16 = new System.Windows.Forms.Label();
-            this.loggingLevel = new System.Windows.Forms.ComboBox();
-            this.label17 = new System.Windows.Forms.Label();
+            this.lblPath = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -220,10 +221,31 @@
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
             // 
+            // label17
+            // 
+            resources.ApplyResources(this.label17, "label17");
+            this.label17.Name = "label17";
+            // 
+            // label16
+            // 
+            resources.ApplyResources(this.label16, "label16");
+            this.label16.Name = "label16";
+            // 
             // label8
             // 
             resources.ApplyResources(this.label8, "label8");
             this.label8.Name = "label8";
+            // 
+            // loggingLevel
+            // 
+            this.loggingLevel.FormattingEnabled = true;
+            this.loggingLevel.Items.AddRange(new object[] {
+            resources.GetString("loggingLevel.Items"),
+            resources.GetString("loggingLevel.Items1"),
+            resources.GetString("loggingLevel.Items2"),
+            resources.GetString("loggingLevel.Items3")});
+            resources.ApplyResources(this.loggingLevel, "loggingLevel");
+            this.loggingLevel.Name = "loggingLevel";
             // 
             // label3
             // 
@@ -379,26 +401,10 @@
             0,
             0});
             // 
-            // label16
+            // lblPath
             // 
-            resources.ApplyResources(this.label16, "label16");
-            this.label16.Name = "label16";
-            // 
-            // loggingLevel
-            // 
-            this.loggingLevel.FormattingEnabled = true;
-            this.loggingLevel.Items.AddRange(new object[] {
-            resources.GetString("loggingLevel.Items"),
-            resources.GetString("loggingLevel.Items1"),
-            resources.GetString("loggingLevel.Items2"),
-            resources.GetString("loggingLevel.Items3")});
-            resources.ApplyResources(this.loggingLevel, "loggingLevel");
-            this.loggingLevel.Name = "loggingLevel";
-            // 
-            // label17
-            // 
-            resources.ApplyResources(this.label17, "label17");
-            this.label17.Name = "label17";
+            resources.ApplyResources(this.lblPath, "lblPath");
+            this.lblPath.Name = "lblPath";
             // 
             // Settings
             // 
@@ -406,6 +412,7 @@
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
+            this.Controls.Add(this.lblPath);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox5);
@@ -476,5 +483,6 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.ComboBox loggingLevel;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label lblPath;
     }
 }
