@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Drip.Gui.Api;
 using Drip.Gui.Processing;
+using Drip.Gui.Utility;
 using Illinois.SeaPerch.Net;
 using XInputDotNetPure;
 
@@ -106,9 +107,15 @@ namespace Drip.Gui.CustomLogic
             if (Compare(_previousGamePadState, state, s => s.Buttons.RightStick))
                 InvokeButtonPress(GamePadButton.RStick);
             if (Compare(_previousGamePadState, state, s => s.Buttons.X))
+            {
                 InvokeButtonPress(GamePadButton.X);
+                ApplicationConfig.Shared.ServoCoefficient *= 0.1m;
+            }
             if (Compare(_previousGamePadState, state, s => s.Buttons.Y))
+            {
                 InvokeButtonPress(GamePadButton.Y);
+                ApplicationConfig.Shared.ServoCoefficient *= 1.1m;
+            }
 
             //Dpad
             if (Compare(_previousGamePadState, state, s => s.DPad.Up))
