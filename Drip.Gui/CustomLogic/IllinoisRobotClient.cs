@@ -34,6 +34,9 @@ namespace Drip.Gui.CustomLogic
 
         public bool SkipFrame = false;
 
+
+        const double ThrusterMaxValue = 20;
+
         public override void SendFrame(RobotFrame frame)
         {
             if (SkipFrame)
@@ -44,13 +47,13 @@ namespace Drip.Gui.CustomLogic
                 //Standard old variables
 
                 _client.SetVariable(CommandField.PropellerA_mode, frame.Motors.ThrusterA.Mode);
-                _client.SetVariable(CommandField.PropellerA_speed, (int) Math.Abs(frame.Motors.ThrusterA.Value*100.0));
+                _client.SetVariable(CommandField.PropellerA_speed, (int) Math.Abs(frame.Motors.ThrusterA.Value* ThrusterMaxValue));
 
                 _client.SetVariable(CommandField.PropellerB_mode, frame.Motors.ThrusterB.Mode);
-                _client.SetVariable(CommandField.PropellerB_speed, (int) Math.Abs(frame.Motors.ThrusterB.Value*100.0));
+                _client.SetVariable(CommandField.PropellerB_speed, (int) Math.Abs(frame.Motors.ThrusterB.Value* ThrusterMaxValue));
 
                 _client.SetVariable(CommandField.PropellerC_mode, frame.Motors.ThrusterC.Mode);
-                _client.SetVariable(CommandField.PropellerC_speed, (int) Math.Abs(frame.Motors.ThrusterC.Value*100.0));
+                _client.SetVariable(CommandField.PropellerC_speed, (int) Math.Abs(frame.Motors.ThrusterC.Value* ThrusterMaxValue));
 
                 _client.SetVariable(CommandField.Light, frame.LightIsOn ? 1 : 0);
 
