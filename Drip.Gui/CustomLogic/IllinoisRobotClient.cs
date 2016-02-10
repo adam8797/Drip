@@ -35,7 +35,7 @@ namespace Drip.Gui.CustomLogic
         public bool SkipFrame = false;
 
 
-        const double ThrusterMaxValue = 20;
+        const double ThrusterMaxValue = 100;
 
         public override void SendFrame(RobotFrame frame)
         {
