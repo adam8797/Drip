@@ -1,13 +1,17 @@
 ﻿{
-  "MainVideoUrl": "",
   "AuxVideoUrl": "",
+  "CaptureUrl": "https://www.nasa.gov/sites/default/files/styles/image_card_4x3_ratio/public/thumbnails/image/leisa_christmas_false_color.png",
+  "DeadZone": 1,
+  "FramesShownInGraph": 200,
+  "ImageDelay": 5,
+  "ImageNameFormat": "h-mm-ss-fff",
+  "ImageSaveDirectory": "img/",
+  "LoggingLevel": 1,
+  "MainVideoUrl": "",
   "RoverIp": "192.168.1.19",
   "RoverPort": "8008",
-  "UpdateRate": 15,
   "ServoCoefficient": 1,
-  "FramesShownInGraph": 200,
-  "YMinimum": 0,
+  "UpdateRate": 15,
   "YMaximum": 0,
-  "LoggingLevel": 1,
-  "DeadZone": 1
+  "YMinimum": 0
 }

@@ -62,6 +62,11 @@ namespace Drip.Gui.Utility
         public string RoverPort { get; set; }
         public int UpdateRate { get; set; }
 
+		public string ImageSaveDirectory { get; set; }
+		public string ImageNameFormat { get; set; }
+		public int ImageDelay { get; set; }
+		public string CaptureUrl { get; set; }
+
         public GamePadDeadZone DeadZone { get; set; }
         public decimal ServoCoefficient { get; set; }
         public int FramesShownInGraph { get; set; }

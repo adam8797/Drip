@@ -18,6 +18,7 @@ namespace Drip.Gui.Forms
     {
         //The main central clock that handles all information retrieval, processing, and output
         private CentralClock _centralClock;
+	    private ImageClock _imageClock;
 
         public Dashboard()
         {
@@ -43,7 +44,9 @@ namespace Drip.Gui.Forms
             auxVideoStream.MJPEGUrl = ApplicationConfig.Shared.AuxVideoUrl;
             mainVideoStream.MJPEGUrl = ApplicationConfig.Shared.MainVideoUrl;
 
-            LogicMapper.InputProcessor.ButtonPress += InputProcessorOnButtonPress;
+			_imageClock = new ImageClock(ApplicationConfig.Shared.ImageDelay);
+
+			LogicMapper.InputProcessor.ButtonPress += InputProcessorOnButtonPress;
         }
 
         #region Processing Event Handlers
@@ -266,6 +269,20 @@ namespace Drip.Gui.Forms
 
         public Chart Chart => chart;
 
-        #endregion
-    }
+		#endregion
+
+		private void btnImageCap_Click(object sender, EventArgs e)
+		{
+			if (_imageClock.IsRunning)
+			{
+				_imageClock.Stop();
+				btnImageCap.BackColor = Color.Red;
+			}
+			else
+			{
+				_imageClock.Start();
+				btnImageCap.BackColor = Color.LimeGreen;
+			}
+		}
+	}
 }

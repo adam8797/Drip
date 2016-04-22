@@ -100,6 +100,7 @@
     <Compile Include="Forms\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Processing\ImageClock.cs" />
     <Compile Include="Processing\MotorSubFrame.cs" />
     <Compile Include="Processing\RobotFrame.cs" />
     <Compile Include="Processing\ServoSubFrame.cs" />
@@ -176,7 +177,9 @@
       <Name>Illinois.SeaPerch.Net</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="img\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(SolutionDir)\Library\XInputDotNet\XInputInterface.dll" "$(TargetDir)\XInputInterface.dll"</PostBuildEvent>

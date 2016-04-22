@@ -36,7 +36,10 @@ namespace Drip.Gui.Forms
                 FramesShownInGraph = (int)numFrames.Value,
                 YMaximum = numYMax.Value,
                 YMinimum = numYMin.Value,
-                LoggingLevel = (EventLevel)loggingLevel.SelectedIndex
+                LoggingLevel = (EventLevel)loggingLevel.SelectedIndex,
+				ImageNameFormat = txtNameFormat.Text,
+				ImageSaveDirectory = txtCaptureDir.Text,
+				ImageDelay = (int)capUpDown.Value
             };
 
             ApplicationConfig.Shared = cfg;
@@ -69,6 +72,9 @@ namespace Drip.Gui.Forms
             numYMax.Value = cfg.YMaximum;
             numYMin.Value = cfg.YMinimum;
             loggingLevel.SelectedIndex = (int)cfg.LoggingLevel;
+	        txtCaptureDir.Text = cfg.ImageSaveDirectory;
+	        capUpDown.Value = cfg.ImageDelay;
+	        txtNameFormat.Text = cfg.ImageNameFormat;
 
             _previousConfig = cfg;
 
@@ -77,5 +83,18 @@ namespace Drip.Gui.Forms
                 lblPath.Text = "Settings Loaded From: " + cfg.LoadedFrom;
             }
         }
-    }
+
+		private void btnChooseCapDir_Click(object sender, EventArgs e)
+		{
+			FolderBrowserDialog fbd = new FolderBrowserDialog()
+			{
+				RootFolder = Environment.SpecialFolder.Desktop,
+				Description = "Choose a folder to store captured images"
+			};
+			fbd.ShowNewFolderButton = true;
+			fbd.ShowDialog();
+
+			txtCaptureDir.Text = fbd.SelectedPath;
+		}
+	}
 }
