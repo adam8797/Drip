@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,5 +15,10 @@ namespace Drip.Gui.Utility
         {
             return sticka.X.Equals(stickb.X) && sticka.Y.Equals(stickb.Y);
         }
+
+	    public static long Area(this Size s)
+	    {
+		    return s.Height*s.Width;
+	    }
     }
 }
