@@ -40,6 +40,7 @@ namespace Drip.Gui.Forms
             {
                 auxVideoStream.MJPEGUrl = config.AuxVideoUrl;
                 mainVideoStream.MJPEGUrl = config.MainVideoUrl;
+                _imageClock.DelayInSeconds = config.ImageDelay;
             };
 
             auxVideoStream.MJPEGUrl = ApplicationConfig.Shared.AuxVideoUrl;

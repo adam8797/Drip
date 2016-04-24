@@ -64,7 +64,7 @@ namespace Drip.Gui.Utility
 
 		public string ImageSaveDirectory { get; set; }
 		public string ImageNameFormat { get; set; }
-		public int ImageDelay { get; set; }
+		public decimal ImageDelay { get; set; }
 		public string CaptureUrl { get; set; }
 
         public GamePadDeadZone DeadZone { get; set; }

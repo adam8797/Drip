@@ -39,7 +39,8 @@ namespace Drip.Gui.Forms
                 LoggingLevel = (EventLevel)loggingLevel.SelectedIndex,
 				ImageNameFormat = txtNameFormat.Text,
 				ImageSaveDirectory = txtCaptureDir.Text,
-				ImageDelay = (int)capUpDown.Value
+				ImageDelay = capUpDown.Value,
+                CaptureUrl = boxCapUrl.Text
             };
 
             ApplicationConfig.Shared = cfg;
@@ -75,6 +76,7 @@ namespace Drip.Gui.Forms
 	        txtCaptureDir.Text = cfg.ImageSaveDirectory;
 	        capUpDown.Value = cfg.ImageDelay;
 	        txtNameFormat.Text = cfg.ImageNameFormat;
+            boxCapUrl.Text = cfg.CaptureUrl;
 
             _previousConfig = cfg;
 

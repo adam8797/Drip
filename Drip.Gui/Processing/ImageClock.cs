@@ -14,11 +14,11 @@ namespace Drip.Gui.Processing
 {
 	public class ImageClock
 	{
-		public ImageClock(int delay)
+		public ImageClock(decimal delay)
 		{
 			_timer = new Timer()
 			{
-				Interval = delay * 1000,
+				Interval =(int)(delay * 1000.0m),
 			};
 
 
@@ -41,10 +41,18 @@ namespace Drip.Gui.Processing
 
 		public bool IsRunning => _timer.Enabled;
 
-		public int DelayInSeconds
+		public decimal DelayInSeconds
 		{
-			get { return _timer.Interval / 1000; }
-			set { _timer.Interval = value * 1000; }
+			get { return _timer.Interval / 1000.0m; }
+			set
+            {
+                _timer.Interval = (int)(value * 1000.0m);
+                if (IsRunning) 
+                {
+                    Stop();
+                    Start();
+                }
+            }
 		}
 
 		public void Start()
