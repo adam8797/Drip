@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Drip.Gui.Api;
+using Drip.Gui.Controls;
 using Drip.Gui.CustomLogic;
 using Drip.Gui.Processing;
 using Drip.Gui.Utility;
@@ -107,6 +108,31 @@ namespace Drip.Gui.Forms
                 if (gamePadButton == GamePadButton.RBumper)
                 {
                     //Switch video streams
+	                MJPEGVideo large, small;
+
+	                if (mainVideoStream.Size.Area() > auxVideoStream.Size.Area())
+	                {
+		                //Main is larger
+		                large = mainVideoStream;
+		                small = auxVideoStream;
+
+	                }
+	                else
+	                {
+		                //Aux is larger
+		                large = auxVideoStream;
+		                small = mainVideoStream;
+	                }
+
+					var largeSize = large.Size;
+					var largePos = large.Location;
+
+					large.Size = small.Size;
+					large.Location = auxVideoStream.Location;
+
+	                small.Size = largeSize;
+	                small.Location = largePos;
+
                 }
                 else if (gamePadButton == GamePadButton.DPadRight)
                 {
